@@ -1,7 +1,7 @@
 {
 "name": "Το Εξοδολόγιό μου",
 "short_name": "Εξοδολόγιο",
-"description": "Προσωπική εφαρμογή καταγραφής εξόδων",
+"description": "Προσωπική εφαρμογή καταγραφής και παρακολούθησης εξόδων",
 "start_url": "./",
 "scope": "./",
 "display": "standalone",
@@ -9,10 +9,13 @@
 "background_color": "#111827",
 "theme_color": "#111827",
 "lang": "el",
-"categories": ["finance", "productivity"],
+"categories": [
+"finance",
+"productivity"
+],
 "icons": [
 {
-"src": "https://cdn-icons-png.flaticon.com/512/3135/3135706.png",
+"src": "./icon.png",
 "sizes": "512x512",
 "type": "image/png",
 "purpose": "any maskable"
