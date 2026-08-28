@@ -23,7 +23,7 @@ event.waitUntil(
         )
 
 );
-```
+
 
 });
 
@@ -61,7 +61,7 @@ event.waitUntil(
 
 self.addEventListener("fetch", event => {
 
-```
+
 if (
     event.request.method !== "GET"
 ) {
@@ -112,6 +112,6 @@ event.respondWith(
         })
 
 );
-```
+
 
 });
