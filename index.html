@@ -581,10 +581,10 @@ body.dark .expense-note {
             <div id="headerDate" class="header-date"></div>
         </div>
 
-
+```
     <div id="headerTotal" class="header-total">0,00 €</div>
 </div>
-
+```
 
 </header>
 
@@ -592,7 +592,7 @@ body.dark .expense-note {
 
 <section id="home" class="view active">
 
-
+```
 <div class="card">
 
     <div class="date-nav">
@@ -652,13 +652,13 @@ body.dark .expense-note {
     <div id="expenseList"></div>
 
 </div>
-
+```
 
 </section>
 
 <section id="month" class="view">
 
-
+```
 <div class="card">
 
     <div class="title">📊 Έξοδα μήνα</div>
@@ -678,12 +678,13 @@ body.dark .expense-note {
     <div id="monthDays"></div>
 
 </div>
+```
 
 </section>
 
 <section id="settings" class="view">
 
-
+```
 <div class="card">
 
     <div class="title">⚙️ Ρυθμίσεις</div>
@@ -733,19 +734,20 @@ body.dark .expense-note {
         <div class="setting-title">💾 Αντίγραφο ασφαλείας</div>
 
         <div class="setting-info">
-            Κατέβασε όλα τα δεδομένα σου σε αρχείο JSON.
+            Το Backup περιέχει όλα τα έξοδα και τα Budget.
+            Αποθήκευσέ το σε ασφαλές σημείο.
         </div>
 
         <button
             class="setting-button blue"
             onclick="backup()"
         >
-            📥 Backup
+            📥 Δημιουργία Backup
         </button>
 
         <button
             class="setting-button"
-            onclick="document.getElementById('restore').click()"
+            onclick="openRestore()"
         >
             📤 Επαναφορά Backup
         </button>
@@ -753,7 +755,7 @@ body.dark .expense-note {
         <input
             id="restore"
             type="file"
-            accept=".json"
+            accept="application/json,.json"
             style="display:none"
             onchange="restore(event)"
         >
@@ -762,7 +764,11 @@ body.dark .expense-note {
 
     <div class="setting">
 
-        <div class="setting-title">📊 CSV</div>
+        <div class="setting-title">📊 Excel / CSV</div>
+
+        <div class="setting-info">
+            Εξαγωγή όλων των εξόδων σε αρχείο CSV.
+        </div>
 
         <button
             class="setting-button"
@@ -787,7 +793,7 @@ body.dark .expense-note {
     </div>
 
 </div>
-
+```
 
 </section>
 
@@ -795,6 +801,7 @@ body.dark .expense-note {
 
 <nav class="bottom">
 
+```
 <button
     id="navHome"
     class="nav active"
@@ -829,13 +836,13 @@ body.dark .expense-note {
     <span class="nav-icon">⚙️</span>
     Ρυθμίσεις
 </button>
-
+```
 
 </nav>
 
 <div id="modal" class="modal-bg">
 
-
+```
 <div class="modal">
 
     <div class="modal-title">💶 Νέα καταχώρηση</div>
@@ -878,7 +885,7 @@ body.dark .expense-note {
     </div>
 
 </div>
-
+```
 
 </div>
 
@@ -949,22 +956,78 @@ const categories = categoryGroups.reduce(
     []
 );
 
-let expenses = JSON.parse(
-    localStorage.getItem("expenses") || "[]"
-);
-
-let currentDate = new Date();
+let expenses = loadExpenses();
 let selectedCategory = null;
+let currentDate = new Date();
+
+function loadExpenses() {
+
+    try {
+
+        const saved =
+            localStorage.getItem("expenses");
+
+        if (!saved) {
+            return [];
+        }
+
+        const data =
+            JSON.parse(saved);
+
+        if (!Array.isArray(data)) {
+            return [];
+        }
+
+        return data.filter(
+            function(item) {
+
+                return (
+                    item &&
+                    typeof item === "object" &&
+                    typeof item.date === "string" &&
+                    typeof item.category === "string" &&
+                    !isNaN(Number(item.amount))
+                );
+            }
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Σφάλμα φόρτωσης εξόδων:",
+            error
+        );
+
+        return [];
+    }
+}
 
 function saveData() {
-    localStorage.setItem(
-        "expenses",
-        JSON.stringify(expenses)
-    );
+
+    try {
+
+        localStorage.setItem(
+            "expenses",
+            JSON.stringify(expenses)
+        );
+
+        return true;
+
+    } catch (error) {
+
+        alert(
+            "Δεν ήταν δυνατή η αποθήκευση των δεδομένων."
+        );
+
+        return false;
+    }
 }
 
 function euro(value) {
-    return Number(value || 0).toLocaleString(
+
+    return Number(
+        value || 0
+    ).toLocaleString(
         "el-GR",
         {
             minimumFractionDigits: 2,
@@ -974,16 +1037,22 @@ function euro(value) {
 }
 
 function dateKey(date) {
+
     return (
         date.getFullYear() +
         "-" +
-        String(date.getMonth() + 1).padStart(2, "0") +
+        String(
+            date.getMonth() + 1
+        ).padStart(2, "0") +
         "-" +
-        String(date.getDate()).padStart(2, "0")
+        String(
+            date.getDate()
+        ).padStart(2, "0")
     );
 }
 
 function getCategory(id) {
+
     return categories.find(
         function(item) {
             return item[0] === id;
@@ -994,7 +1063,9 @@ function getCategory(id) {
 function buildCategories() {
 
     const box =
-        document.getElementById("categories");
+        document.getElementById(
+            "categories"
+        );
 
     box.innerHTML = "";
 
@@ -1002,7 +1073,9 @@ function buildCategories() {
         function(group) {
 
             const heading =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
             heading.className =
                 "category-group";
@@ -1010,30 +1083,63 @@ function buildCategories() {
             heading.textContent =
                 group.name;
 
-            box.appendChild(heading);
+            box.appendChild(
+                heading
+            );
 
             group.items.forEach(
                 function(item) {
 
                     const button =
-                        document.createElement("button");
+                        document.createElement(
+                            "button"
+                        );
 
-                    button.className = "cat";
+                    button.className =
+                        "cat";
 
-                    button.innerHTML =
-                        '<span class="cat-icon">' +
-                        item[1] +
-                        "</span>" +
-                        item[2];
+                    button.type =
+                        "button";
+
+                    const icon =
+                        document.createElement(
+                            "span"
+                        );
+
+                    icon.className =
+                        "cat-icon";
+
+                    icon.textContent =
+                        item[1];
+
+                    button.appendChild(
+                        icon
+                    );
+
+                    const text =
+                        document.createTextNode(
+                            item[2]
+                        );
+
+                    button.appendChild(
+                        text
+                    );
 
                     button.addEventListener(
                         "click",
-                        function() {
-                            openModal(item[0]);
+                        function(event) {
+
+                            event.preventDefault();
+
+                            openModal(
+                                item[0]
+                            );
                         }
                     );
 
-                    box.appendChild(button);
+                    box.appendChild(
+                        button
+                    );
                 }
             );
         }
@@ -1042,15 +1148,24 @@ function buildCategories() {
 
 function openModal(categoryId) {
 
-    selectedCategory = categoryId;
+    selectedCategory =
+        categoryId;
 
     const item =
-        getCategory(categoryId);
+        getCategory(
+            categoryId
+        );
+
+    if (!item) {
+        return;
+    }
 
     document.getElementById(
         "modalCategory"
     ).textContent =
-        item[1] + " " + item[2];
+        item[1] +
+        " " +
+        item[2];
 
     document.getElementById(
         "amount"
@@ -1062,13 +1177,17 @@ function openModal(categoryId) {
 
     document.getElementById(
         "modal"
-    ).classList.add("show");
+    ).classList.add(
+        "show"
+    );
 
     setTimeout(
         function() {
+
             document.getElementById(
                 "amount"
             ).focus();
+
         },
         150
     );
@@ -1078,31 +1197,49 @@ function closeModal() {
 
     document.getElementById(
         "modal"
-    ).classList.remove("show");
+    ).classList.remove(
+        "show"
+    );
 
-    selectedCategory = null;
+    selectedCategory =
+        null;
 }
 
 function saveExpense() {
 
     if (!selectedCategory) {
-        alert("Επίλεξε κατηγορία.");
+
+        alert(
+            "Επίλεξε κατηγορία."
+        );
+
         return;
     }
 
     let rawAmount =
         document.getElementById(
             "amount"
-        ).value.replace(",", ".");
+        ).value;
+
+    rawAmount =
+        rawAmount
+            .replace(",", ".")
+            .trim();
 
     const amount =
-        parseFloat(rawAmount);
+        parseFloat(
+            rawAmount
+        );
 
     if (
-        isNaN(amount) ||
+        !isFinite(amount) ||
         amount <= 0
     ) {
-        alert("Βάλε ένα σωστό ποσό.");
+
+        alert(
+            "Βάλε ένα σωστό ποσό."
+        );
+
         return;
     }
 
@@ -1111,15 +1248,34 @@ function saveExpense() {
             "note"
         ).value.trim();
 
-    expenses.push({
-        id: Date.now() + Math.random(),
-        date: dateKey(currentDate),
-        category: selectedCategory,
-        amount: Math.round(amount * 100) / 100,
-        note: note
-    });
+    const newExpense = {
+        id:
+            Date.now() +
+            Math.random(),
+        date:
+            dateKey(
+                currentDate
+            ),
+        category:
+            selectedCategory,
+        amount:
+            Math.round(
+                amount * 100
+            ) / 100,
+        note:
+            note
+    };
 
-    saveData();
+    expenses.push(
+        newExpense
+    );
+
+    if (!saveData()) {
+
+        expenses.pop();
+
+        return;
+    }
 
     closeModal();
 
@@ -1145,10 +1301,16 @@ function getDayExpenses(date) {
 
 function getDayTotal(date) {
 
-    return getDayExpenses(date).reduce(
+    return getDayExpenses(
+        date
+    ).reduce(
         function(total, expense) {
+
             return total +
-                Number(expense.amount);
+                Number(
+                    expense.amount
+                );
+
         },
         0
     );
@@ -1163,22 +1325,31 @@ function getWeekTotal(date) {
         start.getDay() || 7;
 
     start.setDate(
-        start.getDate() - day + 1
+        start.getDate() -
+        day +
+        1
     );
 
     let total = 0;
 
-    for (let i = 0; i < 7; i++) {
+    for (
+        let i = 0;
+        i < 7;
+        i++
+    ) {
 
         const current =
             new Date(start);
 
         current.setDate(
-            start.getDate() + i
+            start.getDate() +
+            i
         );
 
         total +=
-            getDayTotal(current);
+            getDayTotal(
+                current
+            );
     }
 
     return total;
@@ -1214,8 +1385,12 @@ function getMonthToDateTotal(date) {
         )
         .reduce(
             function(total, expense) {
+
                 return total +
-                    Number(expense.amount);
+                    Number(
+                        expense.amount
+                    );
+
             },
             0
         );
@@ -1244,13 +1419,18 @@ function getMonthExpenses() {
 
 function getMonthTotal() {
 
-    return getMonthExpenses().reduce(
-        function(total, expense) {
-            return total +
-                Number(expense.amount);
-        },
-        0
-    );
+    return getMonthExpenses()
+        .reduce(
+            function(total, expense) {
+
+                return total +
+                    Number(
+                        expense.amount
+                    );
+
+            },
+            0
+        );
 }
 
 function render() {
@@ -1263,10 +1443,14 @@ function render() {
 function renderDate() {
 
     const dayTotal =
-        getDayTotal(currentDate);
+        getDayTotal(
+            currentDate
+        );
 
     const monthTotal =
-        getMonthToDateTotal(currentDate);
+        getMonthToDateTotal(
+            currentDate
+        );
 
     document.getElementById(
         "dateMain"
@@ -1301,24 +1485,32 @@ function renderDate() {
     document.getElementById(
         "headerTotal"
     ).textContent =
-        euro(dayTotal);
+        euro(
+            dayTotal
+        );
 
     document.getElementById(
         "dayTotal"
     ).textContent =
-        euro(dayTotal);
+        euro(
+            dayTotal
+        );
 
     document.getElementById(
         "weekTotal"
     ).textContent =
         euro(
-            getWeekTotal(currentDate)
+            getWeekTotal(
+                currentDate
+            )
         );
 
     document.getElementById(
         "monthToDateTotal"
     ).textContent =
-        euro(monthTotal);
+        euro(
+            monthTotal
+        );
 }
 
 function renderList() {
@@ -1329,7 +1521,9 @@ function renderList() {
         );
 
     const list =
-        getDayExpenses(currentDate);
+        getDayExpenses(
+            currentDate
+        );
 
     box.innerHTML = "";
 
@@ -1337,7 +1531,9 @@ function renderList() {
         "listTotal"
     ).textContent =
         euro(
-            getDayTotal(currentDate)
+            getDayTotal(
+                currentDate
+            )
         );
 
     if (list.length === 0) {
@@ -1353,7 +1549,11 @@ function renderList() {
     list
         .sort(
             function(a, b) {
-                return b.id - a.id;
+
+                return (
+                    Number(b.id) -
+                    Number(a.id)
+                );
             }
         )
         .forEach(
@@ -1363,6 +1563,10 @@ function renderList() {
                     getCategory(
                         expense.category
                     );
+
+                if (!item) {
+                    return;
+                }
 
                 const row =
                     document.createElement(
@@ -1402,7 +1606,9 @@ function renderList() {
                 name.textContent =
                     item[2];
 
-                info.appendChild(name);
+                info.appendChild(
+                    name
+                );
 
                 if (expense.note) {
 
@@ -1417,7 +1623,9 @@ function renderList() {
                     note.textContent =
                         expense.note;
 
-                    info.appendChild(note);
+                    info.appendChild(
+                        note
+                    );
                 }
 
                 const money =
@@ -1429,7 +1637,9 @@ function renderList() {
                     "expense-money";
 
                 money.textContent =
-                    euro(expense.amount);
+                    euro(
+                        expense.amount
+                    );
 
                 const deleteButton =
                     document.createElement(
@@ -1439,24 +1649,41 @@ function renderList() {
                 deleteButton.className =
                     "action delete";
 
+                deleteButton.type =
+                    "button";
+
                 deleteButton.textContent =
                     "🗑";
 
                 deleteButton.addEventListener(
                     "click",
                     function() {
+
                         deleteExpense(
                             expense.id
                         );
                     }
                 );
 
-                row.appendChild(icon);
-                row.appendChild(info);
-                row.appendChild(money);
-                row.appendChild(deleteButton);
+                row.appendChild(
+                    icon
+                );
 
-                box.appendChild(row);
+                row.appendChild(
+                    info
+                );
+
+                row.appendChild(
+                    money
+                );
+
+                row.appendChild(
+                    deleteButton
+                );
+
+                box.appendChild(
+                    row
+                );
             }
         );
 }
@@ -1471,28 +1698,45 @@ function deleteExpense(id) {
         return;
     }
 
+    const oldExpenses =
+        expenses.slice();
+
     expenses =
         expenses.filter(
             function(expense) {
-                return String(expense.id) !==
-                    String(id);
+
+                return String(
+                    expense.id
+                ) !==
+                String(id);
             }
         );
 
-    saveData();
+    if (!saveData()) {
+
+        expenses =
+            oldExpenses;
+
+        return;
+    }
 
     render();
 
-    showToast("✓ Διαγράφηκε");
+    showToast(
+        "✓ Διαγράφηκε"
+    );
 }
 
 function changeDay(amount) {
 
     currentDate =
-        new Date(currentDate);
+        new Date(
+            currentDate
+        );
 
     currentDate.setDate(
-        currentDate.getDate() + amount
+        currentDate.getDate() +
+        amount
     );
 
     render();
@@ -1503,7 +1747,9 @@ function goToday() {
     currentDate =
         new Date();
 
-    showView("home");
+    showView(
+        "home"
+    );
 
     render();
 }
@@ -1514,10 +1760,13 @@ function goYesterday() {
         new Date();
 
     currentDate.setDate(
-        currentDate.getDate() - 1
+        currentDate.getDate() -
+        1
     );
 
-    showView("home");
+    showView(
+        "home"
+    );
 
     render();
 }
@@ -1525,9 +1774,12 @@ function goYesterday() {
 function showView(viewName) {
 
     document
-        .querySelectorAll(".view")
+        .querySelectorAll(
+            ".view"
+        )
         .forEach(
             function(view) {
+
                 view.classList.remove(
                     "active"
                 );
@@ -1535,45 +1787,76 @@ function showView(viewName) {
         );
 
     document
-        .getElementById(viewName)
-        .classList.add("active");
+        .getElementById(
+            viewName
+        )
+        .classList.add(
+            "active"
+        );
 
     document
-        .querySelectorAll(".nav")
+        .querySelectorAll(
+            ".nav"
+        )
         .forEach(
             function(button) {
+
                 button.classList.remove(
                     "active"
                 );
             }
         );
 
-    if (viewName === "home") {
+    if (
+        viewName ===
+        "home"
+    ) {
 
         document
-            .getElementById("navHome")
-            .classList.add("active");
+            .getElementById(
+                "navHome"
+            )
+            .classList.add(
+                "active"
+            );
     }
 
-    if (viewName === "month") {
+    if (
+        viewName ===
+        "month"
+    ) {
 
         document
-            .getElementById("navMonth")
-            .classList.add("active");
+            .getElementById(
+                "navMonth"
+            )
+            .classList.add(
+                "active"
+            );
 
         renderMonth();
     }
 
-    if (viewName === "settings") {
+    if (
+        viewName ===
+        "settings"
+    ) {
 
         document
-            .getElementById("navSettings")
-            .classList.add("active");
+            .getElementById(
+                "navSettings"
+            )
+            .classList.add(
+                "active"
+            );
 
         renderSettings();
     }
 
-    window.scrollTo(0, 0);
+    window.scrollTo(
+        0,
+        0
+    );
 }
 
 function renderMonth() {
@@ -1587,7 +1870,9 @@ function renderMonth() {
     document.getElementById(
         "monthTotal"
     ).textContent =
-        euro(total);
+        euro(
+            total
+        );
 
     document.getElementById(
         "monthSub"
@@ -1604,7 +1889,9 @@ function renderMonth() {
 
     categories.forEach(
         function(item) {
-            totals[item[0]] = 0;
+
+            totals[item[0]] =
+                0;
         }
     );
 
@@ -1612,14 +1899,22 @@ function renderMonth() {
         function(expense) {
 
             if (
-                totals[expense.category] ===
-                undefined
+                totals[
+                    expense.category
+                ] === undefined
             ) {
-                totals[expense.category] = 0;
+
+                totals[
+                    expense.category
+                ] = 0;
             }
 
-            totals[expense.category] +=
-                Number(expense.amount);
+            totals[
+                expense.category
+            ] +=
+                Number(
+                    expense.amount
+                );
         }
     );
 
@@ -1633,13 +1928,20 @@ function renderMonth() {
     categories
         .filter(
             function(item) {
-                return totals[item[0]] > 0;
+
+                return (
+                    totals[item[0]] >
+                    0
+                );
             }
         )
         .sort(
             function(a, b) {
-                return totals[b[0]] -
-                    totals[a[0]];
+
+                return (
+                    totals[b[0]] -
+                    totals[a[0]]
+                );
             }
         )
         .forEach(
@@ -1650,7 +1952,9 @@ function renderMonth() {
 
                 const percent =
                     total > 0
-                        ? amount / total * 100
+                        ? amount /
+                          total *
+                          100
                         : 0;
 
                 const row =
@@ -1661,24 +1965,77 @@ function renderMonth() {
                 row.className =
                     "month-row";
 
-                row.innerHTML =
-                    '<div class="month-top">' +
-                    "<span>" +
+                const top =
+                    document.createElement(
+                        "div"
+                    );
+
+                top.className =
+                    "month-top";
+
+                const name =
+                    document.createElement(
+                        "span"
+                    );
+
+                name.textContent =
                     item[1] +
                     " " +
-                    item[2] +
-                    "</span>" +
-                    "<span>" +
-                    euro(amount) +
-                    "</span>" +
-                    "</div>" +
-                    '<div class="bar-bg">' +
-                    '<div class="bar" style="width:' +
-                    percent +
-                    '%"></div>' +
-                    "</div>";
+                    item[2];
 
-                box.appendChild(row);
+                const amountText =
+                    document.createElement(
+                        "span"
+                    );
+
+                amountText.textContent =
+                    euro(
+                        amount
+                    );
+
+                top.appendChild(
+                    name
+                );
+
+                top.appendChild(
+                    amountText
+                );
+
+                const barBg =
+                    document.createElement(
+                        "div"
+                    );
+
+                barBg.className =
+                    "bar-bg";
+
+                const bar =
+                    document.createElement(
+                        "div"
+                    );
+
+                bar.className =
+                    "bar";
+
+                bar.style.width =
+                    percent +
+                    "%";
+
+                barBg.appendChild(
+                    bar
+                );
+
+                row.appendChild(
+                    top
+                );
+
+                row.appendChild(
+                    barBg
+                );
+
+                box.appendChild(
+                    row
+                );
             }
         );
 
@@ -1698,20 +2055,31 @@ function renderMonthDays() {
         function(expense) {
 
             if (
-                !totals[expense.date]
+                !totals[
+                    expense.date
+                ]
             ) {
-                totals[expense.date] = 0;
+
+                totals[
+                    expense.date
+                ] = 0;
             }
 
-            totals[expense.date] +=
-                Number(expense.amount);
+            totals[
+                expense.date
+            ] +=
+                Number(
+                    expense.amount
+                );
         }
     );
 
     const dates =
-        Object.keys(totals)
-            .sort()
-            .reverse();
+        Object.keys(
+            totals
+        )
+        .sort()
+        .reverse();
 
     box.innerHTML = "";
 
@@ -1742,10 +2110,34 @@ function renderMonthDays() {
             row.className =
                 "expense";
 
-            row.innerHTML =
-                '<div class="expense-icon">📅</div>' +
-                '<div class="expense-info">' +
-                '<div class="expense-name">' +
+            const icon =
+                document.createElement(
+                    "div"
+                );
+
+            icon.className =
+                "expense-icon";
+
+            icon.textContent =
+                "📅";
+
+            const info =
+                document.createElement(
+                    "div"
+                );
+
+            info.className =
+                "expense-info";
+
+            const name =
+                document.createElement(
+                    "div"
+                );
+
+            name.className =
+                "expense-name";
+
+            name.textContent =
                 date.toLocaleDateString(
                     "el-GR",
                     {
@@ -1753,12 +2145,36 @@ function renderMonthDays() {
                         day: "numeric",
                         month: "long"
                     }
-                ) +
-                "</div>" +
-                "</div>" +
-                '<div class="expense-money">' +
-                euro(totals[key]) +
-                "</div>";
+                );
+
+            info.appendChild(
+                name
+            );
+
+            const money =
+                document.createElement(
+                    "div"
+                );
+
+            money.className =
+                "expense-money";
+
+            money.textContent =
+                euro(
+                    totals[key]
+                );
+
+            row.appendChild(
+                icon
+            );
+
+            row.appendChild(
+                info
+            );
+
+            row.appendChild(
+                money
+            );
 
             row.addEventListener(
                 "click",
@@ -1767,13 +2183,17 @@ function renderMonthDays() {
                     currentDate =
                         date;
 
-                    showView("home");
+                    showView(
+                        "home"
+                    );
 
                     render();
                 }
             );
 
-            box.appendChild(row);
+            box.appendChild(
+                row
+            );
         }
     );
 }
@@ -1783,37 +2203,48 @@ function saveBudget() {
     let value =
         document.getElementById(
             "budget"
-        ).value.replace(",", ".");
+        ).value;
 
     value =
-        parseFloat(value);
+        parseFloat(
+            value.replace(
+                ",",
+                "."
+            )
+        );
 
     const budgets =
-        JSON.parse(
-            localStorage.getItem(
-                "budgets"
-            ) || "{}"
-        );
+        getBudgets();
 
     const key =
         currentDate.getFullYear() +
         "-" +
         String(
-            currentDate.getMonth() + 1
-        ).padStart(2, "0");
+            currentDate.getMonth() +
+            1
+        ).padStart(
+            2,
+            "0"
+        );
 
     if (
-        !isNaN(value) &&
+        isFinite(value) &&
         value > 0
     ) {
-        budgets[key] = value;
+
+        budgets[key] =
+            value;
+
     } else {
+
         delete budgets[key];
     }
 
     localStorage.setItem(
         "budgets",
-        JSON.stringify(budgets)
+        JSON.stringify(
+            budgets
+        )
     );
 
     renderSettings();
@@ -1823,35 +2254,76 @@ function saveBudget() {
     );
 }
 
+function getBudgets() {
+
+    try {
+
+        const saved =
+            localStorage.getItem(
+                "budgets"
+            );
+
+        if (!saved) {
+            return {};
+        }
+
+        const data =
+            JSON.parse(
+                saved
+            );
+
+        if (
+            !data ||
+            typeof data !==
+            "object" ||
+            Array.isArray(data)
+        ) {
+            return {};
+        }
+
+        return data;
+
+    } catch (error) {
+
+        return {};
+    }
+}
+
 function renderSettings() {
 
     const budgets =
-        JSON.parse(
-            localStorage.getItem(
-                "budgets"
-            ) || "{}"
-        );
+        getBudgets();
 
     const key =
         currentDate.getFullYear() +
         "-" +
         String(
-            currentDate.getMonth() + 1
-        ).padStart(2, "0");
+            currentDate.getMonth() +
+            1
+        ).padStart(
+            2,
+            "0"
+        );
 
     const budget =
-        Number(budgets[key] || 0);
+        Number(
+            budgets[key] || 0
+        );
 
     document.getElementById(
         "budget"
     ).value =
-        budget || "";
+        budget ||
+        "";
+
+    const info =
+        document.getElementById(
+            "budgetInfo"
+        );
 
     if (!budget) {
 
-        document.getElementById(
-            "budgetInfo"
-        ).textContent =
+        info.textContent =
             "Δεν έχει οριστεί budget για αυτόν τον μήνα.";
 
         return;
@@ -1861,15 +2333,18 @@ function renderSettings() {
         getMonthTotal();
 
     const remaining =
-        budget - spent;
+        budget -
+        spent;
 
-    document.getElementById(
-        "budgetInfo"
-    ).textContent =
+    info.textContent =
         "Έξοδα: " +
-        euro(spent) +
+        euro(
+            spent
+        ) +
         " · Υπόλοιπο: " +
-        euro(remaining);
+        euro(
+            remaining
+        );
 }
 
 function toggleDark() {
@@ -1890,62 +2365,116 @@ function toggleDark() {
 
 function backup() {
 
-    const data = {
-        expenses: expenses,
-        budgets: JSON.parse(
-            localStorage.getItem(
-                "budgets"
-            ) || "{}"
-        ),
-        created:
-            new Date().toISOString()
-    };
+    try {
 
-    const blob =
-        new Blob(
-            [
-                JSON.stringify(
-                    data,
-                    null,
-                    2
-                )
-            ],
-            {
-                type:
-                    "application/json"
-            }
+        const backupData = {
+            app:
+                "exodologio",
+            version:
+                2,
+            createdAt:
+                new Date().toISOString(),
+            expenses:
+                expenses,
+            budgets:
+                getBudgets()
+        };
+
+        const json =
+            JSON.stringify(
+                backupData,
+                null,
+                2
+            );
+
+        const blob =
+            new Blob(
+                [json],
+                {
+                    type:
+                        "application/json;charset=utf-8"
+                }
+            );
+
+        const url =
+            URL.createObjectURL(
+                blob
+            );
+
+        const link =
+            document.createElement(
+                "a"
+            );
+
+        link.href =
+            url;
+
+        link.download =
+            "exodologio-backup-" +
+            dateKey(
+                new Date()
+            ) +
+            ".json";
+
+        link.style.display =
+            "none";
+
+        document.body.appendChild(
+            link
         );
 
-    const url =
-        URL.createObjectURL(blob);
+        link.click();
 
-    const link =
-        document.createElement(
-            "a"
+        setTimeout(
+            function() {
+
+                document.body.removeChild(
+                    link
+                );
+
+                URL.revokeObjectURL(
+                    url
+                );
+
+            },
+            1000
         );
 
-    link.href = url;
+        showToast(
+            "✓ Το Backup δημιουργήθηκε"
+        );
 
-    link.download =
-        "exodologio-backup.json";
+    } catch (error) {
 
-    document.body.appendChild(link);
+        console.error(
+            error
+        );
 
-    link.click();
+        alert(
+            "Δεν ήταν δυνατή η δημιουργία Backup."
+        );
+    }
+}
 
-    document.body.removeChild(link);
+function openRestore() {
 
-    URL.revokeObjectURL(url);
+    document.getElementById(
+        "restore"
+    ).value = "";
 
-    showToast(
-        "✓ Το Backup δημιουργήθηκε"
-    );
+    document.getElementById(
+        "restore"
+    ).click();
 }
 
 function restore(event) {
 
+    const input =
+        event.target;
+
     const file =
-        event.target.files[0];
+        input.files &&
+        input.files[0];
 
     if (!file) {
         return;
@@ -1959,40 +2488,239 @@ function restore(event) {
 
             try {
 
-                const data =
-                    JSON.parse(
-                        reader.result
+                const text =
+                    String(
+                        reader.result ||
+                        ""
+                    ).replace(
+                        /^\uFEFF/,
+                        ""
+                    ).trim();
+
+                if (!text) {
+
+                    throw new Error(
+                        "Το αρχείο είναι άδειο."
                     );
+                }
+
+                let data;
+
+                try {
+
+                    data =
+                        JSON.parse(
+                            text
+                        );
+
+                } catch (jsonError) {
+
+                    throw new Error(
+                        "Το αρχείο δεν είναι έγκυρο JSON."
+                    );
+                }
+
+                let importedExpenses =
+                    null;
+
+                let importedBudgets =
+                    {};
 
                 if (
-                    !data ||
-                    !Array.isArray(
+                    Array.isArray(
+                        data
+                    )
+                ) {
+
+                    importedExpenses =
+                        data;
+
+                } else if (
+                    data &&
+                    Array.isArray(
                         data.expenses
                     )
                 ) {
-                    throw new Error();
+
+                    importedExpenses =
+                        data.expenses;
+
+                    if (
+                        data.budgets &&
+                        typeof data.budgets ===
+                        "object" &&
+                        !Array.isArray(
+                            data.budgets
+                        )
+                    ) {
+
+                        importedBudgets =
+                            data.budgets;
+                    }
+
+                } else if (
+                    data &&
+                    Array.isArray(
+                        data.data
+                    )
+                ) {
+
+                    importedExpenses =
+                        data.data;
+
+                } else {
+
+                    throw new Error(
+                        "Δεν βρέθηκε λίστα εξόδων στο Backup."
+                    );
                 }
+
+                const cleanedExpenses =
+                    importedExpenses.filter(
+                        function(item) {
+
+                            if (
+                                !item ||
+                                typeof item !==
+                                "object"
+                            ) {
+                                return false;
+                            }
+
+                            if (
+                                typeof item.date !==
+                                "string"
+                            ) {
+                                return false;
+                            }
+
+                            if (
+                                typeof item.category !==
+                                "string"
+                            ) {
+                                return false;
+                            }
+
+                            const amount =
+                                Number(
+                                    item.amount
+                                );
+
+                            if (
+                                !isFinite(
+                                    amount
+                                ) ||
+                                amount < 0
+                            ) {
+                                return false;
+                            }
+
+                            return true;
+                        }
+                    )
+                    .map(
+                        function(item) {
+
+                            return {
+                                id:
+                                    item.id ||
+                                    Date.now() +
+                                    Math.random(),
+
+                                date:
+                                    item.date,
+
+                                category:
+                                    item.category,
+
+                                amount:
+                                    Math.round(
+                                        Number(
+                                            item.amount
+                                        ) *
+                                        100
+                                    ) / 100,
+
+                                note:
+                                    item.note
+                                        ? String(
+                                            item.note
+                                        )
+                                        : ""
+                            };
+                        }
+                    );
+
+                if (
+                    cleanedExpenses.length === 0 &&
+                    importedExpenses.length > 0
+                ) {
+
+                    throw new Error(
+                        "Το Backup περιέχει έξοδα, αλλά δεν βρέθηκε έγκυρη καταχώρηση."
+                    );
+                }
+
+                const message =
+                    "Βρέθηκαν " +
+                    cleanedExpenses.length +
+                    " έξοδα στο Backup.\n\n" +
+                    "Τα υπάρχοντα έξοδα θα αντικατασταθούν.\n\n" +
+                    "Θέλεις να συνεχίσεις;";
 
                 if (
                     !confirm(
-                        "Το Backup θα αντικαταστήσει τα υπάρχοντα δεδομένα. Συνέχεια;"
+                        message
                     )
                 ) {
                     return;
                 }
 
+                const oldExpenses =
+                    expenses.slice();
+
+                const oldBudgets =
+                    getBudgets();
+
                 expenses =
-                    data.expenses;
+                    cleanedExpenses;
 
-                saveData();
+                try {
 
-                if (data.budgets) {
+                    localStorage.setItem(
+                        "expenses",
+                        JSON.stringify(
+                            expenses
+                        )
+                    );
 
                     localStorage.setItem(
                         "budgets",
                         JSON.stringify(
-                            data.budgets
+                            importedBudgets
                         )
+                    );
+
+                } catch (saveError) {
+
+                    expenses =
+                        oldExpenses;
+
+                    localStorage.setItem(
+                        "expenses",
+                        JSON.stringify(
+                            oldExpenses
+                        )
+                    );
+
+                    localStorage.setItem(
+                        "budgets",
+                        JSON.stringify(
+                            oldBudgets
+                        );
+
+                    throw new Error(
+                        "Δεν ήταν δυνατή η αποθήκευση του Backup στη συσκευή."
                     );
                 }
 
@@ -2004,15 +2732,45 @@ function restore(event) {
                     "✓ Το Backup επαναφέρθηκε"
                 );
 
+                alert(
+                    "Η επαναφορά ολοκληρώθηκε.\n\n" +
+                    "Φορτώθηκαν " +
+                    cleanedExpenses.length +
+                    " έξοδα."
+                );
+
             } catch (error) {
 
-                alert(
-                    "❌ Το αρχείο Backup δεν είναι έγκυρο."
+                console.error(
+                    "Restore error:",
+                    error
                 );
+
+                alert(
+                    "❌ Η επαναφορά απέτυχε.\n\n" +
+                    error.message
+                );
+
+            } finally {
+
+                input.value = "";
             }
         };
 
-    reader.readAsText(file);
+    reader.onerror =
+        function() {
+
+            alert(
+                "❌ Δεν ήταν δυνατή η ανάγνωση του αρχείου."
+            );
+
+            input.value = "";
+        };
+
+    reader.readAsText(
+        file,
+        "UTF-8"
+    );
 }
 
 function exportCSV() {
@@ -2028,18 +2786,28 @@ function exportCSV() {
                     expense.category
                 );
 
+            const category =
+                item
+                    ? item[2]
+                    : expense.category;
+
             const note =
                 String(
                     expense.note || ""
-                ).replace(
+                )
+                .replace(
                     /;/g,
                     ","
+                )
+                .replace(
+                    /\n/g,
+                    " "
                 );
 
             csv +=
                 expense.date +
                 ";" +
-                item[2] +
+                category +
                 ";" +
                 Number(
                     expense.amount
@@ -2050,42 +2818,67 @@ function exportCSV() {
         }
     );
 
-    const blob =
-        new Blob(
-            [
-                "\uFEFF" +
-                csv
-            ],
-            {
-                type:
-                    "text/csv;charset=utf-8"
-            }
+    try {
+
+        const blob =
+            new Blob(
+                [
+                    "\uFEFF" +
+                    csv
+                ],
+                {
+                    type:
+                        "text/csv;charset=utf-8"
+                }
+            );
+
+        const url =
+            URL.createObjectURL(
+                blob
+            );
+
+        const link =
+            document.createElement(
+                "a"
+            );
+
+        link.href =
+            url;
+
+        link.download =
+            "exodologio.csv";
+
+        document.body.appendChild(
+            link
         );
 
-    const url =
-        URL.createObjectURL(blob);
+        link.click();
 
-    const link =
-        document.createElement(
-            "a"
+        setTimeout(
+            function() {
+
+                document.body.removeChild(
+                    link
+                );
+
+                URL.revokeObjectURL(
+                    url
+                );
+
+            },
+            1000
         );
 
-    link.href = url;
+        showToast(
+            "✓ Το CSV δημιουργήθηκε"
+        );
 
-    link.download =
-        "exodologio.csv";
+    } catch (error) {
 
-    document.body.appendChild(link);
-
-    link.click();
-
-    document.body.removeChild(link);
-
-    URL.revokeObjectURL(url);
-
-    showToast(
-        "✓ Το CSV δημιουργήθηκε"
-    );
+        alert(
+            "Δεν ήταν δυνατή η δημιουργία CSV."
+        );
+    }
 }
 
 function deleteAll() {
@@ -2098,9 +2891,18 @@ function deleteAll() {
         return;
     }
 
+    const oldExpenses =
+        expenses.slice();
+
     expenses = [];
 
-    saveData();
+    if (!saveData()) {
+
+        expenses =
+            oldExpenses;
+
+        return;
+    }
 
     render();
 
@@ -2141,7 +2943,9 @@ function showToast(message) {
 }
 
 document
-    .getElementById("modal")
+    .getElementById(
+        "modal"
+    )
     .addEventListener(
         "click",
         function(event) {
@@ -2150,13 +2954,16 @@ document
                 event.target ===
                 this
             ) {
+
                 closeModal();
             }
         }
     );
 
 document
-    .getElementById("amount")
+    .getElementById(
+        "amount"
+    )
     .addEventListener(
         "keydown",
         function(event) {
@@ -2178,6 +2985,7 @@ if (
         "dark"
     ) === "1"
 ) {
+
     document.body.classList.add(
         "dark"
     );
