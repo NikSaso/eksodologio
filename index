@@ -1,849 +1,952 @@
-html
 <!DOCTYPE html>
+
 <html lang="el">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#111827">
 <title>Το Εξοδολόγιό μου</title>
 
 <style>
 * {
     box-sizing: border-box;
-}
-
-:root {
-    --bg: #f3f4f6;
-    --card: #ffffff;
-    --text: #111827;
-    --muted: #6b7280;
-    --border: #e5e7eb;
-    --primary: #2563eb;
-    --primary-dark: #1d4ed8;
-    --green: #16a34a;
-    --red: #dc2626;
-    --orange: #ea580c;
-    --dark: #111827;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
     margin: 0;
+    background: #f3f4f6;
+    color: #111827;
     font-family: Arial, Helvetica, sans-serif;
-    background: var(--bg);
-    color: var(--text);
+    padding-bottom: 90px;
 }
 
-.container {
-    max-width: 1250px;
-    margin: auto;
-    padding: 20px;
-}
-
-/* HEADER */
-
-header {
-    background: linear-gradient(135deg, #111827, #374151);
-    color: white;
-    padding: 25px;
-    border-radius: 18px;
-    margin-bottom: 18px;
-}
-
-header h1 {
-    margin: 0 0 7px;
-    font-size: 30px;
-}
-
-header p {
-    margin: 0;
-    color: #d1d5db;
-}
-
-/* TOOLBAR */
-
-.toolbar {
-    background: white;
-    border-radius: 15px;
-    padding: 14px;
-    margin-bottom: 18px;
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    align-items: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,.06);
-}
-
-button,
-input,
-select {
-    font: inherit;
+button, input, textarea {
+    font-family: inherit;
 }
 
 button {
-    border: 0;
-    border-radius: 9px;
-    padding: 10px 14px;
+    border: none;
     cursor: pointer;
-    background: #374151;
+}
+
+.header {
+    background: #111827;
     color: white;
-}
-
-button:hover {
-    opacity: .88;
-}
-
-.btn-primary {
-    background: var(--primary);
-}
-
-.btn-green {
-    background: var(--green);
-}
-
-.btn-red {
-    background: var(--red);
-}
-
-.btn-orange {
-    background: var(--orange);
-}
-
-.btn-light {
-    background: #e5e7eb;
-    color: #111827;
-}
-
-.date-picker {
-    padding: 10px;
-    border: 1px solid var(--border);
-    border-radius: 9px;
-}
-
-.status {
-    margin-left: auto;
-    font-size: 13px;
-    color: var(--muted);
-}
-
-/* NAVIGATION */
-
-.date-navigation {
-    background: white;
-    border-radius: 15px;
     padding: 18px;
-    text-align: center;
-    margin-bottom: 18px;
-    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
-.date-navigation h2 {
-    margin: 0 0 5px;
-    text-transform: capitalize;
-}
-
-.date-navigation p {
-    margin: 0;
-    color: var(--muted);
-}
-
-.nav-buttons {
-    margin-top: 14px;
+.header-row {
     display: flex;
-    justify-content: center;
-    gap: 8px;
-    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
 }
 
-/* CARDS */
+.title {
+    font-size: 21px;
+    font-weight: bold;
+}
 
-.cards {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 14px;
-    margin-bottom: 20px;
+.header-date {
+    color: #d1d5db;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.header-total {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.container {
+    width: 100%;
+    max-width: 650px;
+    margin: auto;
+    padding: 14px;
 }
 
 .card {
     background: white;
-    border-radius: 15px;
-    padding: 18px;
-    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    border-radius: 18px;
+    padding: 15px;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
 
-.card-title {
-    color: var(--muted);
-    font-size: 13px;
-    margin-bottom: 8px;
+.view {
+    display: none;
 }
 
-.card-value {
-    font-size: 25px;
+.view.active {
+    display: block;
+}
+
+.date-navigation {
+    display: grid;
+    grid-template-columns: 48px 1fr 48px;
+    gap: 8px;
+    align-items: center;
+}
+
+.date-button {
+    height: 48px;
+    border-radius: 13px;
+    background: #e5e7eb;
+    font-size: 24px;
     font-weight: bold;
 }
 
-.card-subtitle {
-    margin-top: 5px;
-    color: var(--muted);
+.date-center {
+    text-align: center;
+}
+
+.date-main {
+    font-size: 17px;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.date-sub {
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 4px;
+}
+
+.today-button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 12px;
+    border-radius: 12px;
+    background: #2563eb;
+    color: white;
+    font-weight: bold;
+}
+
+.date-picker {
+    width: 100%;
+    margin-top: 10px;
+    padding: 11px;
+    border: 1px solid #d1d5db;
+    border-radius: 11px;
+    font-size: 15px;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.summary-label {
+    color: #6b7280;
     font-size: 12px;
 }
 
-/* BUDGET */
-
-.budget-box {
-    background: white;
-    padding: 20px;
-    border-radius: 15px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+.summary-value {
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 5px;
 }
 
-.budget-header {
+.section-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 13px;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.category-button {
+    min-height: 70px;
+    padding: 6px;
+    border-radius: 13px;
+    background: #f3f4f6;
+    border: 2px solid transparent;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.category-button .emoji {
+    display: block;
+    font-size: 24px;
+    margin-bottom: 4px;
+}
+
+.category-button.selected {
+    border-color: #2563eb;
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
+.amount-label {
+    color: #6b7280;
+    font-size: 13px;
+    margin-top: 15px;
+    margin-bottom: 6px;
+}
+
+.amount-input {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid #d1d5db;
+    border-radius: 14px;
+    font-size: 28px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.note-input {
+    width: 100%;
+    margin-top: 10px;
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    resize: none;
+}
+
+.add-button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 15px;
+    border-radius: 13px;
+    background: #16a34a;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.list-header {
     display: flex;
     justify-content: space-between;
-    gap: 10px;
-    flex-wrap: wrap;
+    align-items: center;
 }
 
-.budget-input {
-    width: 130px;
-    padding: 9px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    text-align: right;
+.list-total {
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.expense-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.expense-item:last-child {
+    border-bottom: none;
+}
+
+.expense-icon {
+    width: 43px;
+    height: 43px;
+    background: #f3f4f6;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin-right: 10px;
+}
+
+.expense-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.expense-name {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.expense-note {
+    color: #6b7280;
+    font-size: 12px;
+    margin-top: 3px;
+}
+
+.expense-amount {
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+.expense-actions {
+    display: flex;
+    gap: 5px;
+    margin-left: 7px;
+}
+
+.small-button {
+    width: 35px;
+    height: 35px;
+    border-radius: 9px;
+    background: #f3f4f6;
+}
+
+.delete-button {
+    color: #dc2626;
+}
+
+.empty {
+    text-align: center;
+    color: #9ca3af;
+    padding: 25px 10px;
+}
+
+.empty-icon {
+    font-size: 38px;
+    margin-bottom: 8px;
+}
+
+.month-total {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.month-description {
+    color: #6b7280;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+.month-category-row {
+    margin-top: 14px;
+}
+
+.month-category-top {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+}
+
+.month-category-name {
+    font-weight: bold;
+}
+
+.month-category-value {
+    font-weight: bold;
 }
 
 .progress-bg {
     width: 100%;
-    height: 12px;
-    background: #e5e7eb;
-    border-radius: 20px;
-    overflow: hidden;
-    margin-top: 15px;
-}
-
-.progress-bar {
-    height: 100%;
-    width: 0;
-    background: var(--primary);
-    transition: width .3s;
-}
-
-/* EXPENSE TABLE */
-
-.section-title {
-    margin: 28px 0 12px;
-    font-size: 21px;
-}
-
-.table-wrapper {
-    background: white;
-    border-radius: 15px;
-    overflow-x: auto;
-    box-shadow: 0 2px 8px rgba(0,0,0,.06);
-}
-
-.expenses-table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 650px;
-}
-
-.expenses-table th {
-    background: #e5e7eb;
-    padding: 13px;
-    text-align: left;
-    font-size: 13px;
-}
-
-.expenses-table td {
-    padding: 10px 13px;
-    border-top: 1px solid var(--border);
-}
-
-.category {
-    font-weight: bold;
-}
-
-.description {
-    color: var(--muted);
-    font-size: 13px;
-}
-
-.amount-input {
-    width: 120px;
-    padding: 9px;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
-    text-align: right;
-}
-
-.amount-input:focus {
-    outline: 2px solid #93c5fd;
-}
-
-/* DASHBOARD */
-
-.dashboard {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 18px;
-}
-
-.dashboard-card {
-    background: white;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0 2px 8px rgba(0,0,0,.06);
-}
-
-.dashboard-card h3 {
-    margin-top: 0;
-}
-
-/* MONTHLY BREAKDOWN */
-
-.month-row {
-    display: grid;
-    grid-template-columns: 1fr 110px;
-    gap: 10px;
-    padding: 11px 0;
-    border-bottom: 1px solid var(--border);
-}
-
-.month-row:last-child {
-    border-bottom: none;
-}
-
-.month-value {
-    text-align: right;
-    font-weight: bold;
-}
-
-.small-progress {
-    height: 6px;
+    height: 8px;
     background: #e5e7eb;
     border-radius: 10px;
     overflow: hidden;
-    margin-top: 5px;
+    margin-top: 6px;
 }
 
-.small-progress > div {
+.progress-fill {
     height: 100%;
-    background: var(--primary);
+    background: #2563eb;
 }
 
-/* CHART */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 200;
+    background: white;
+    border-top: 1px solid #e5e7eb;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 8px;
+}
 
-.chart-container {
+.nav-button {
+    background: transparent;
+    color: #6b7280;
+    padding: 5px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.nav-icon {
+    display: block;
+    font-size: 21px;
+    margin-bottom: 3px;
+}
+
+.nav-button.active {
+    color: #2563eb;
+}
+
+.setting-row {
+    padding: 13px 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.setting-row:last-child {
+    border-bottom: none;
+}
+
+.setting-title {
+    font-weight: bold;
+}
+
+.setting-description {
+    color: #6b7280;
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+.setting-button {
     width: 100%;
-    overflow-x: auto;
+    margin-top: 9px;
+    padding: 12px;
+    border-radius: 11px;
+    background: #e5e7eb;
+    font-weight: bold;
 }
 
-canvas {
-    max-width: 100%;
+.blue {
+    background: #2563eb;
+    color: white;
 }
 
-/* RECENT DAYS */
-
-.day-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+.red {
+    background: #fee2e2;
+    color: #b91c1c;
 }
 
-.day-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    background: #f9fafb;
-    border-radius: 8px;
-    cursor: pointer;
+.budget-input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 11px;
+    font-size: 17px;
 }
 
-.day-item:hover {
-    background: #eef2ff;
+.budget-progress {
+    height: 8px;
+    width: 100%;
+    background: #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 8px;
 }
 
-/* TOAST */
+.budget-progress-fill {
+    height: 100%;
+    background: #2563eb;
+    width: 0%;
+}
 
 .toast {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
+    bottom: 95px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
     background: #111827;
     color: white;
-    padding: 12px 17px;
-    border-radius: 9px;
+    padding: 11px 17px;
+    border-radius: 12px;
     opacity: 0;
-    transform: translateY(10px);
-    transition: .25s;
     pointer-events: none;
+    transition: 0.25s;
     z-index: 1000;
+    white-space: nowrap;
 }
 
 .toast.show {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(-50%) translateY(0);
 }
 
-/* RESPONSIVE */
-
-@media(max-width: 900px) {
-    .cards {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .dashboard {
-        grid-template-columns: 1fr;
-    }
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 500;
+    padding: 20px;
+    align-items: flex-end;
 }
 
-@media(max-width: 600px) {
-    .container {
-        padding: 10px;
-    }
+.modal-overlay.show {
+    display: flex;
+}
 
-    header {
-        padding: 20px;
-    }
+.modal {
+    width: 100%;
+    max-width: 650px;
+    margin: auto;
+    background: white;
+    padding: 18px;
+    border-radius: 20px;
+}
 
-    header h1 {
-        font-size: 24px;
-    }
+.modal-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
 
-    .cards {
-        grid-template-columns: 1fr 1fr;
-        gap: 8px;
-    }
+.modal-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
 
-    .card {
-        padding: 13px;
-    }
+.modal-actions button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 11px;
+}
 
-    .card-value {
-        font-size: 20px;
-    }
+.modal-cancel {
+    background: #e5e7eb;
+}
 
-    .status {
-        width: 100%;
-        margin-left: 0;
-    }
+.modal-save {
+    background: #2563eb;
+    color: white;
+}
+
+body.dark {
+    background: #111827;
+    color: #f9fafb;
+}
+
+body.dark .card,
+body.dark .modal,
+body.dark .bottom-nav {
+    background: #1f2937;
+    color: white;
+}
+
+body.dark .category-button,
+body.dark .date-button,
+body.dark .small-button,
+body.dark .expense-icon {
+    background: #374151;
+    color: white;
+}
+
+body.dark .category-button.selected {
+    background: #1e3a8a;
+}
+
+body.dark input,
+body.dark textarea {
+    background: #111827;
+    color: white;
+    border-color: #4b5563;
+}
+
+body.dark .expense-item,
+body.dark .setting-row {
+    border-color: #374151;
 }
 </style>
-</head>
 
+</head>
 
 <body>
 
-<div class="container">
-
-<header>
-    <h1>💰 Το Εξοδολόγιό μου</h1>
-    <p>Καθημερινή καταγραφή και παρακολούθηση των εξόδων σου.</p>
+<header class="header">
+    <div class="header-row">
+        <div>
+            <div class="title">💰 Εξοδολόγιο</div>
+            <div class="header-date" id="headerDate"></div>
+        </div>
+        <div class="header-total" id="headerTotal">0,00 €</div>
+    </div>
 </header>
 
+<main class="container">
 
-<!-- FILE CONTROLS -->
+<!-- ΑΡΧΙΚΗ -->
 
-<div class="toolbar">
+<section id="viewHome" class="view active">
 
-    <button class="btn-primary" onclick="connectFile()">
-        📂 Σύνδεση αρχείου
-    </button>
+```
+<div class="card">
+    <div class="date-navigation">
+        <button class="date-button" onclick="changeDay(-1)">‹</button>
 
-    <button class="btn-green" onclick="saveToFile()">
-        💾 Αποθήκευση
-    </button>
+        <div class="date-center">
+            <div class="date-main" id="dateMain"></div>
+            <div class="date-sub" id="dateSub"></div>
+        </div>
 
-    <button onclick="loadFromFile()">
-        📥 Φόρτωση
-    </button>
-
-    <button class="btn-orange" onclick="exportCSV()">
-        📊 Export CSV
-    </button>
-
-    <button class="btn-light" onclick="newDataFile()">
-        📄 Νέο αρχείο
-    </button>
-
-    <button class="btn-red" onclick="deleteEverything()">
-        🗑 Διαγραφή δεδομένων
-    </button>
-
-    <div class="status" id="fileStatus">
-        Δεν έχει συνδεθεί αρχείο
+        <button class="date-button" onclick="changeDay(1)">›</button>
     </div>
 
+    <button class="today-button" onclick="goToday()">
+        📅 Σήμερα
+    </button>
+
+    <input
+        type="date"
+        id="datePicker"
+        class="date-picker"
+        onchange="selectDate()"
+    >
 </div>
 
+<div class="summary-grid">
+    <div class="card">
+        <div class="summary-label">Σύνολο ημέρας</div>
+        <div class="summary-value" id="dayTotal">0,00 €</div>
+    </div>
 
-<!-- DATE NAVIGATION -->
+    <div class="card">
+        <div class="summary-label">Σύνολο εβδομάδας</div>
+        <div class="summary-value" id="weekTotal">0,00 €</div>
+    </div>
+</div>
 
-<div class="date-navigation">
+<div class="card">
+    <div class="section-title">➕ Νέο έξοδο</div>
 
-    <h2 id="dateTitle"></h2>
+    <div class="category-grid" id="categoryGrid"></div>
 
-    <p id="monthTitle"></p>
+    <div class="amount-label">Ποσό</div>
 
-    <div class="nav-buttons">
+    <input
+        type="number"
+        inputmode="decimal"
+        min="0"
+        step="0.01"
+        id="amountInput"
+        class="amount-input"
+        placeholder="0,00"
+    >
 
-        <button onclick="previousDay()">
-            ← Χθες
+    <textarea
+        id="noteInput"
+        class="note-input"
+        rows="2"
+        placeholder="Σημείωση (προαιρετικά)"
+    ></textarea>
+
+    <button class="add-button" onclick="addExpense()">
+        ➕ ΚΑΤΑΧΩΡΗΣΗ
+    </button>
+</div>
+
+<div class="card">
+    <div class="list-header">
+        <div class="section-title" style="margin:0">
+            📋 Έξοδα ημέρας
+        </div>
+
+        <div class="list-total" id="listTotal">
+            0,00 €
+        </div>
+    </div>
+
+    <div id="expenseList"></div>
+</div>
+```
+
+</section>
+
+<!-- ΜΗΝΑΣ -->
+
+<section id="viewMonth" class="view">
+
+```
+<div class="card">
+    <div class="section-title">📊 Μηνιαία έξοδα</div>
+
+    <div class="month-total" id="monthTotal">
+        0,00 €
+    </div>
+
+    <div class="month-description" id="monthDescription"></div>
+
+    <div id="monthCategories"></div>
+</div>
+
+<div class="card">
+    <div class="section-title">📅 Ιστορικό ημερών</div>
+    <div id="monthDays"></div>
+</div>
+```
+
+</section>
+
+<!-- ΡΥΘΜΙΣΕΙΣ -->
+
+<section id="viewSettings" class="view">
+
+```
+<div class="card">
+    <div class="section-title">⚙️ Ρυθμίσεις</div>
+
+    <div class="setting-row">
+        <div class="setting-title">💰 Μηνιαίο Budget</div>
+
+        <div class="setting-description">
+            Βάλε το ποσό που θέλεις να ξοδεύεις κάθε μήνα.
+        </div>
+
+        <input
+            type="number"
+            inputmode="decimal"
+            id="budgetInput"
+            class="budget-input"
+            placeholder="π.χ. 1000"
+            onchange="saveBudget()"
+        >
+
+        <div
+            id="budgetText"
+            style="font-size:13px;margin-top:8px;color:#6b7280"
+        ></div>
+
+        <div class="budget-progress">
+            <div
+                id="budgetProgress"
+                class="budget-progress-fill"
+            ></div>
+        </div>
+    </div>
+
+    <div class="setting-row">
+        <div class="setting-title">🌙 Σκοτεινό θέμα</div>
+
+        <button class="setting-button" onclick="toggleDarkMode()">
+            Αλλαγή εμφάνισης
+        </button>
+    </div>
+
+    <div class="setting-row">
+        <div class="setting-title">💾 Backup</div>
+
+        <div class="setting-description">
+            Κατέβασε αντίγραφο όλων των εξόδων σου.
+        </div>
+
+        <button class="setting-button blue" onclick="backupData()">
+            📥 Δημιουργία Backup
         </button>
 
-        <button class="btn-primary" onclick="today()">
-            Σήμερα
-        </button>
-
-        <button onclick="nextDay()">
-            Αύριο →
+        <button
+            class="setting-button"
+            onclick="document.getElementById('restoreFile').click()"
+        >
+            📤 Επαναφορά Backup
         </button>
 
         <input
-            type="date"
-            class="date-picker"
-            id="datePicker"
-            onchange="selectDate()"
+            type="file"
+            id="restoreFile"
+            accept=".json"
+            style="display:none"
+            onchange="restoreData(event)"
         >
-
     </div>
 
-</div>
+    <div class="setting-row">
+        <div class="setting-title">📊 Εξαγωγή Excel / CSV</div>
 
-
-<!-- SUMMARY CARDS -->
-
-<div class="cards">
-
-    <div class="card">
-        <div class="card-title">Έξοδα ημέρας</div>
-        <div class="card-value" id="dayTotal">0,00 €</div>
-        <div class="card-subtitle">Σήμερα</div>
+        <button class="setting-button" onclick="exportCSV()">
+            📥 Εξαγωγή όλων των εξόδων
+        </button>
     </div>
 
-    <div class="card">
-        <div class="card-title">Έξοδα εβδομάδας</div>
-        <div class="card-value" id="weekTotal">0,00 €</div>
-        <div class="card-subtitle">Τρέχουσα εβδομάδα</div>
-    </div>
+    <div class="setting-row">
+        <div class="setting-title">🗑 Διαγραφή όλων</div>
 
-    <div class="card">
-        <div class="card-title">Έξοδα μήνα</div>
-        <div class="card-value" id="monthTotal">0,00 €</div>
-        <div class="card-subtitle" id="monthName"></div>
-    </div>
-
-    <div class="card">
-        <div class="card-title">Μέσο ημερήσιο</div>
-        <div class="card-value" id="averageDay">0,00 €</div>
-        <div class="card-subtitle">Με βάση τις ημέρες με έξοδα</div>
-    </div>
-
-</div>
-
-
-<!-- BUDGET -->
-
-<div class="budget-box">
-
-    <div class="budget-header">
-
-        <div>
-            <strong>💰 Budget μήνα</strong>
-            <div
-                style="font-size:13px;color:#6b7280;margin-top:5px"
-                id="budgetRemaining"
-            >
-                Δεν έχει οριστεί budget.
-            </div>
+        <div class="setting-description">
+            Διαγράφει οριστικά όλα τα έξοδα από τη συσκευή.
         </div>
 
-        <div>
+        <button class="setting-button red" onclick="deleteEverything()">
+            🗑 Διαγραφή όλων των δεδομένων
+        </button>
+    </div>
+</div>
+```
 
-            <input
-                id="budgetInput"
-                class="budget-input"
-                type="number"
-                min="0"
-                step="10"
-                placeholder="Budget €"
-                onchange="saveBudget()"
-            >
+</section>
 
-        </div>
+</main>
 
+<!-- ΚΑΤΩ ΜΕΝΟΥ -->
+
+<nav class="bottom-nav">
+
+```
+<button
+    id="navHome"
+    class="nav-button active"
+    onclick="showView('home')"
+>
+    <span class="nav-icon">➕</span>
+    Προσθήκη
+</button>
+
+<button
+    id="navMonth"
+    class="nav-button"
+    onclick="showView('month')"
+>
+    <span class="nav-icon">📊</span>
+    Μήνας
+</button>
+
+<button
+    class="nav-button"
+    onclick="goToYesterday()"
+>
+    <span class="nav-icon">📅</span>
+    Χθες
+</button>
+
+<button
+    id="navSettings"
+    class="nav-button"
+    onclick="showView('settings')"
+>
+    <span class="nav-icon">⚙️</span>
+    Ρυθμίσεις
+</button>
+```
+
+</nav>
+
+<!-- ΕΠΕΞΕΡΓΑΣΙΑ -->
+
+<div class="modal-overlay" id="editModal">
+    <div class="modal">
+
+```
+    <div class="modal-title">
+        ✏️ Επεξεργασία εξόδου
     </div>
 
-    <div class="progress-bg">
+    <input
+        type="number"
+        inputmode="decimal"
+        id="editAmount"
+        class="amount-input"
+    >
 
-        <div
-            class="progress-bar"
-            id="budgetProgress"
-        ></div>
+    <textarea
+        id="editNote"
+        class="note-input"
+        rows="2"
+        placeholder="Σημείωση"
+    ></textarea>
 
-    </div>
+    <div class="modal-actions">
+        <button
+            class="modal-cancel"
+            onclick="closeEdit()"
+        >
+            Άκυρο
+        </button>
 
-</div>
-
-
-<!-- DAILY EXPENSES -->
-
-<h2 class="section-title">
-    📝 Έξοδα ημέρας
-</h2>
-
-<div class="table-wrapper">
-
-<table class="expenses-table">
-
-<thead>
-
-<tr>
-    <th>Κατηγορία</th>
-    <th>Περιγραφή</th>
-    <th>Ποσό</th>
-</tr>
-
-</thead>
-
-<tbody id="expenseTable"></tbody>
-
-</table>
-
-</div>
-
-
-<!-- DASHBOARD -->
-
-<h2 class="section-title">
-    📊 Ανάλυση
-</h2>
-
-<div class="dashboard">
-
-
-<div class="dashboard-card">
-
-    <h3>Έξοδα ανά κατηγορία</h3>
-
-    <div class="chart-container">
-
-        <canvas
-            id="categoryChart"
-            width="500"
-            height="350"
-        ></canvas>
-
-    </div>
-
-</div>
-
-
-<div class="dashboard-card">
-
-    <h3>Κατανομή μήνα</h3>
-
-    <div id="monthlyBreakdown"></div>
-
-</div>
-
-
-<div class="dashboard-card">
-
-    <h3>Τελευταίες ημέρες</h3>
-
-    <div
-        class="day-list"
-        id="recentDays"
-    ></div>
-
-</div>
-
-
-<div class="dashboard-card">
-
-    <h3>Συμβουλή</h3>
-
-    <div id="advice">
-        Καταχώρησε τα έξοδά σου για να δεις ανάλυση.
+        <button
+            class="modal-save"
+            onclick="saveEdit()"
+        >
+            Αποθήκευση
+        </button>
     </div>
 
 </div>
+```
 
 </div>
 
-
-</div>
-
-
-<div class="toast" id="toast">
-    Αποθηκεύτηκε
-</div>
-
+<div class="toast" id="toast"></div>
 
 <script>
 
-/* ==================================================
-   ΚΑΤΗΓΟΡΙΕΣ
-================================================== */
-
 const categories = [
-
-    {
-        id: "market",
-        name: "🛒 Market / Super Market",
-        description: "Τρόφιμα και είδη σπιτιού"
-    },
-
-    {
-        id: "tobacco",
-        name: "🚬 Τσιγάρα",
-        description: "Τσιγάρα / καπνικά"
-    },
-
-    {
-        id: "fastfood",
-        name: "🍔 Fast Food",
-        description: "Burger, πίτσα, σουβλάκι κ.λπ."
-    },
-
-    {
-        id: "workfood",
-        name: "🥪 Σάντουιτς / Αναψυκτικά",
-        description: "Φαγητό και αναψυκτικά στη δουλειά"
-    },
-
-    {
-        id: "coffee",
-        name: "☕ Καφέδες",
-        description: "Καφέδες έξω / take away"
-    },
-
-    {
-        id: "restaurant",
-        name: "🍽️ Εστιατόρια",
-        description: "Γεύματα / δείπνα"
-    },
-
-    {
-        id: "drinks",
-        name: "🍺 Ποτά",
-        description: "Μπαρ / ποτά έξω"
-    },
-
-    {
-        id: "transport",
-        name: "🚌 Μεταφορικά / Εισιτήρια",
-        description: "Λεωφορείο, μετρό, ταξί κ.λπ."
-    },
-
-    {
-        id: "concerts",
-        name: "🎵 Συναυλίες",
-        description: "Εισιτήρια συναυλιών"
-    },
-
-    {
-        id: "standup",
-        name: "🎤 Stand Up",
-        description: "Παραστάσεις"
-    },
-
-    {
-        id: "clothing",
-        name: "👕 Ρουχισμός",
-        description: "Ρούχα και παπούτσια"
-    },
-
-    {
-        id: "betting",
-        name: "🎯 Στοίχημα",
-        description: "Στοιχήματα"
-    },
-
-    {
-        id: "mobile",
-        name: "📱 Κινητή",
-        description: "Λογαριασμός κινητού"
-    },
-
-    {
-        id: "landline",
-        name: "☎️ Σταθερή / Internet",
-        description: "Σταθερό και Internet"
-    },
-
-    {
-        id: "tv",
-        name: "📺 Τηλεόραση",
-        description: "Συνδρομητική TV"
-    },
-
-    {
-        id: "electricity",
-        name: "⚡ ΔΕΗ / Ρεύμα",
-        description: "Ηλεκτρικό ρεύμα"
-    },
-
-    {
-        id: "water",
-        name: "💧 Νερό",
-        description: "Λογαριασμός νερού"
-    },
-
-    {
-        id: "other",
-        name: "📦 Άλλα",
-        description: "Λοιπά έξοδα"
-    }
-
+    { id: "market", name: "Market", emoji: "🛒" },
+    { id: "tobacco", name: "Τσιγάρα", emoji: "🚬" },
+    { id: "fastfood", name: "Fast Food", emoji: "🍔" },
+    { id: "workfood", name: "Σάντουιτς", emoji: "🥪" },
+    { id: "coffee", name: "Καφέ", emoji: "☕" },
+    { id: "restaurant", name: "Εστιατόριο", emoji: "🍽️" },
+    { id: "drinks", name: "Ποτό", emoji: "🍺" },
+    { id: "transport", name: "Μεταφορές", emoji: "🚌" },
+    { id: "concerts", name: "Συναυλία", emoji: "🎵" },
+    { id: "standup", name: "Stand Up", emoji: "🎤" },
+    { id: "clothing", name: "Ρουχισμός", emoji: "👕" },
+    { id: "betting", name: "Στοίχημα", emoji: "🎯" },
+    { id: "mobile", name: "Κινητή", emoji: "📱" },
+    { id: "landline", name: "Σταθερή", emoji: "☎️" },
+    { id: "tv", name: "Τηλεόραση", emoji: "📺" },
+    { id: "electricity", name: "ΔΕΗ", emoji: "⚡" },
+    { id: "water", name: "Νερό", emoji: "💧" },
+    { id: "other", name: "Άλλα", emoji: "📦" }
 ];
 
+const STORAGE_KEY = "my_expenses_mobile_v1";
+const SETTINGS_KEY = "my_expenses_settings_v1";
 
-/* ==================================================
-   GLOBAL DATA
-================================================== */
-
-let data = {};
-
+let expenses = [];
+let selectedCategory = null;
 let selectedDate = new Date();
-
-let fileHandle = null;
-
-let budgetData = {};
+let editingId = null;
 
 
-/* ==================================================
-   DATE FUNCTIONS
-================================================== */
+/* ΑΠΟΘΗΚΕΥΣΗ */
 
-function dateString(date) {
+function loadData() {
+    try {
+        expenses = JSON.parse(
+            localStorage.getItem(STORAGE_KEY) || "[]"
+        );
+    } catch (e) {
+        expenses = [];
+    }
 
-    return [
-        date.getFullYear(),
-        String(date.getMonth() + 1).padStart(2, "0"),
-        String(date.getDate()).padStart(2, "0")
-    ].join("-");
+    const settings = getSettings();
 
+    if (settings.dark) {
+        document.body.classList.add("dark");
+    }
 }
 
 
-function parseDate(str) {
-
-    const p = str.split("-");
-
-    return new Date(
-        Number(p[0]),
-        Number(p[1]) - 1,
-        Number(p[2])
+function saveData() {
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(expenses)
     );
-
 }
 
 
-function formatEuro(value) {
+function getSettings() {
+    try {
+        return JSON.parse(
+            localStorage.getItem(SETTINGS_KEY) || "{}"
+        );
+    } catch (e) {
+        return {};
+    }
+}
 
+
+function saveSettings(settings) {
+    localStorage.setItem(
+        SETTINGS_KEY,
+        JSON.stringify(settings)
+    );
+}
+
+
+/* ΒΟΗΘΗΤΙΚΑ */
+
+function euro(value) {
     return Number(value || 0).toLocaleString(
         "el-GR",
         {
@@ -851,45 +954,261 @@ function formatEuro(value) {
             maximumFractionDigits: 2
         }
     ) + " €";
-
 }
 
 
-/* ==================================================
-   TOAST
-================================================== */
+function dateString(date) {
+    return (
+        date.getFullYear() +
+        "-" +
+        String(date.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(date.getDate()).padStart(2, "0")
+    );
+}
 
-function toast(message) {
 
-    const el = document.getElementById("toast");
+function parseDate(value) {
+    const p = value.split("-");
 
-    el.textContent = message;
+    return new Date(
+        Number(p[0]),
+        Number(p[1]) - 1,
+        Number(p[2])
+    );
+}
 
-    el.classList.add("show");
 
-    setTimeout(
-        () => el.classList.remove("show"),
-        1200
+function getCategory(id) {
+    return categories.find(
+        category => category.id === id
+    );
+}
+
+
+/* ΚΑΤΗΓΟΡΙΕΣ */
+
+function buildCategories() {
+
+    const grid =
+        document.getElementById("categoryGrid");
+
+    grid.innerHTML = "";
+
+    categories.forEach(category => {
+
+        const button =
+            document.createElement("button");
+
+        button.className =
+            "category-button";
+
+        button.dataset.id =
+            category.id;
+
+        button.innerHTML =
+            '<span class="emoji">' +
+            category.emoji +
+            '</span>' +
+            category.name;
+
+        button.onclick = function() {
+            selectCategory(category.id);
+        };
+
+        grid.appendChild(button);
+    });
+}
+
+
+function selectCategory(id) {
+
+    selectedCategory = id;
+
+    document
+        .querySelectorAll(".category-button")
+        .forEach(button => {
+
+            button.classList.toggle(
+                "selected",
+                button.dataset.id === id
+            );
+        });
+
+    document
+        .getElementById("amountInput")
+        .focus();
+}
+
+
+/* ΕΞΟΔΑ ΗΜΕΡΑΣ */
+
+function getDayExpenses(date) {
+
+    const dateValue = dateString(date);
+
+    return expenses
+        .filter(expense =>
+            expense.date === dateValue
+        )
+        .sort((a, b) =>
+            new Date(b.created) -
+            new Date(a.created)
+        );
+}
+
+
+function getDayTotal(date) {
+
+    return getDayExpenses(date)
+        .reduce(
+            (total, expense) =>
+                total + Number(expense.amount),
+            0
+        );
+}
+
+
+function getWeekTotal(date) {
+
+    const firstDay =
+        new Date(date);
+
+    const day =
+        firstDay.getDay() || 7;
+
+    firstDay.setDate(
+        firstDay.getDate() - day + 1
     );
 
+    let total = 0;
+
+    for (let i = 0; i < 7; i++) {
+
+        const current =
+            new Date(firstDay);
+
+        current.setDate(
+            firstDay.getDate() + i
+        );
+
+        total += getDayTotal(current);
+    }
+
+    return total;
 }
 
 
-/* ==================================================
-   RENDER DAY
-================================================== */
+/* ΠΡΟΣΘΗΚΗ ΕΞΟΔΟΥ */
+
+function addExpense() {
+
+    if (!selectedCategory) {
+        showToast(
+            "⚠️ Διάλεξε κατηγορία"
+        );
+        return;
+    }
+
+    const amountInput =
+        document.getElementById("amountInput");
+
+    const amount =
+        parseFloat(
+            amountInput.value.replace(",", ".")
+        );
+
+    if (!isFinite(amount) || amount <= 0) {
+        showToast("⚠️ Βάλε ποσό");
+        return;
+    }
+
+    expenses.push({
+        id:
+            Date.now() +
+            "_" +
+            Math.random()
+                .toString(36)
+                .slice(2, 8),
+
+        date: dateString(selectedDate),
+
+        category: selectedCategory,
+
+        amount:
+            Math.round(amount * 100) / 100,
+
+        note:
+            document
+                .getElementById("noteInput")
+                .value
+                .trim(),
+
+        created:
+            new Date().toISOString()
+    });
+
+    saveData();
+
+    amountInput.value = "";
+
+    document
+        .getElementById("noteInput")
+        .value = "";
+
+    selectedCategory = null;
+
+    document
+        .querySelectorAll(".category-button")
+        .forEach(button =>
+            button.classList.remove("selected")
+        );
+
+    renderAll();
+
+    showToast("✓ Το έξοδο καταχωρήθηκε");
+
+    amountInput.focus();
+}
+
+
+/* ΕΜΦΑΝΙΣΗ ΗΜΕΡΑΣ */
 
 function renderDay() {
 
-    const ds = dateString(selectedDate);
+    const total =
+        getDayTotal(selectedDate);
 
-    document.getElementById(
-        "datePicker"
-    ).value = ds;
+    document
+        .getElementById("datePicker")
+        .value =
+        dateString(selectedDate);
 
-    document.getElementById(
-        "dateTitle"
-    ).textContent =
+    document
+        .getElementById("dateMain")
+        .textContent =
+        selectedDate.toLocaleDateString(
+            "el-GR",
+            {
+                weekday: "long",
+                day: "numeric",
+                month: "long"
+            }
+        );
+
+    document
+        .getElementById("dateSub")
+        .textContent =
+        selectedDate.toLocaleDateString(
+            "el-GR",
+            {
+                year: "numeric"
+            }
+        );
+
+    document
+        .getElementById("headerDate")
+        .textContent =
         selectedDate.toLocaleDateString(
             "el-GR",
             {
@@ -900,495 +1219,575 @@ function renderDay() {
             }
         );
 
-    document.getElementById(
-        "monthTitle"
-    ).textContent =
-        selectedDate.toLocaleDateString(
-            "el-GR",
-            {
-                month: "long",
-                year: "numeric"
-            }
-        );
+    document
+        .getElementById("headerTotal")
+        .textContent =
+        euro(total);
 
+    document
+        .getElementById("dayTotal")
+        .textContent =
+        euro(total);
 
-    const day = data[ds] || {};
+    document
+        .getElementById("weekTotal")
+        .textContent =
+        euro(getWeekTotal(selectedDate));
 
-    const table =
-        document.getElementById(
-            "expenseTable"
-        );
-
-    table.innerHTML = "";
-
-    let total = 0;
-
-
-    categories.forEach(category => {
-
-        const amount =
-            Number(day[category.id] || 0);
-
-        total += amount;
-
-
-        const row =
-            document.createElement("tr");
-
-
-        row.innerHTML = `
-
-            <td class="category">
-                ${category.name}
-            </td>
-
-            <td class="description">
-                ${category.description}
-            </td>
-
-            <td>
-
-                <input
-                    class="amount-input"
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    value="${amount || ""}"
-                    placeholder="0,00"
-                    onchange="saveExpense('${category.id}', this.value)"
-                >
-
-            </td>
-
-        `;
-
-
-        table.appendChild(row);
-
-    });
-
-
-    document.getElementById(
-        "dayTotal"
-    ).textContent = formatEuro(total);
-
-
-    updateDashboard();
-
+    renderExpenseList();
 }
 
 
-/* ==================================================
-   SAVE EXPENSE
-================================================== */
+function renderExpenseList() {
 
-async function saveExpense(id, value) {
-
-    const ds = dateString(selectedDate);
-
-    let amount =
-        parseFloat(
-            String(value).replace(",", ".")
-        );
-
-    if (
-        isNaN(amount) ||
-        amount < 0
-    ) {
-        amount = 0;
-    }
-
-
-    if (!data[ds]) {
-        data[ds] = {};
-    }
-
-
-    if (amount === 0) {
-
-        delete data[ds][id];
-
-    } else {
-
-        data[ds][id] = amount;
-
-    }
-
-
-    if (
-        Object.keys(data[ds]).length === 0
-    ) {
-
-        delete data[ds];
-
-    }
-
-
-    renderDay();
-
-    toast("✓ Αποθηκεύτηκε");
-
-
-    /*
-       Αν έχει συνδεθεί αρχείο,
-       κάνουμε αυτόματη αποθήκευση.
-    */
-
-    if (fileHandle) {
-
-        try {
-
-            await saveToFile(false);
-
-        } catch (error) {
-
-            console.log(
-                "Αυτόματη αποθήκευση απέτυχε",
-                error
-            );
-
-        }
-
-    }
-
-}
-
-
-/* ==================================================
-   TOTALS
-================================================== */
-
-function totalForDay(ds) {
-
-    const day = data[ds] || {};
-
-    return categories.reduce(
-        (sum, category) =>
-            sum + Number(day[category.id] || 0),
-        0
-    );
-
-}
-
-
-function totalForMonth(year, month) {
-
-    let total = 0;
-
-    Object.keys(data).forEach(ds => {
-
-        const d = parseDate(ds);
-
-        if (
-            d.getFullYear() === year &&
-            d.getMonth() === month
-        ) {
-
-            total += totalForDay(ds);
-
-        }
-
-    });
-
-    return total;
-
-}
-
-
-function totalForWeek(date) {
-
-    const d = new Date(date);
-
-    const day =
-        d.getDay() || 7;
-
-    const monday =
-        new Date(d);
-
-    monday.setDate(
-        d.getDate() - day + 1
-    );
-
-    monday.setHours(0,0,0,0);
-
-    let total = 0;
-
-    for (
-        let i = 0;
-        i < 7;
-        i++
-    ) {
-
-        const x =
-            new Date(monday);
-
-        x.setDate(
-            monday.getDate() + i
-        );
-
-        total += totalForDay(
-            dateString(x)
-        );
-
-    }
-
-    return total;
-
-}
-
-
-/* ==================================================
-   DASHBOARD
-================================================== */
-
-function updateDashboard() {
-
-    const year =
-        selectedDate.getFullYear();
-
-    const month =
-        selectedDate.getMonth();
-
-
-    const monthTotal =
-        totalForMonth(
-            year,
-            month
-        );
-
-
-    const weekTotal =
-        totalForWeek(
-            selectedDate
-        );
-
-
-    document.getElementById(
-        "monthTotal"
-    ).textContent =
-        formatEuro(monthTotal);
-
-
-    document.getElementById(
-        "weekTotal"
-    ).textContent =
-        formatEuro(weekTotal);
-
-
-    document.getElementById(
-        "monthName"
-    ).textContent =
-        selectedDate.toLocaleDateString(
-            "el-GR",
-            {
-                month: "long",
-                year: "numeric"
-            }
-        );
-
-
-    /*
-       Μέσος όρος ανά ημέρα με έξοδα.
-    */
-
-    let daysWithExpenses = 0;
-
-    Object.keys(data).forEach(ds => {
-
-        const d = parseDate(ds);
-
-        if (
-            d.getFullYear() === year &&
-            d.getMonth() === month &&
-            totalForDay(ds) > 0
-        ) {
-
-            daysWithExpenses++;
-
-        }
-
-    });
-
-
-    const average =
-        daysWithExpenses
-            ? monthTotal / daysWithExpenses
-            : 0;
-
-
-    document.getElementById(
-        "averageDay"
-    ).textContent =
-        formatEuro(average);
-
-
-    updateBudget();
-
-    updateMonthlyBreakdown();
-
-    updateChart();
-
-    updateRecentDays();
-
-    updateAdvice();
-
-}
-
-
-/* ==================================================
-   MONTHLY BREAKDOWN
-================================================== */
-
-function categoryTotals() {
-
-    const year =
-        selectedDate.getFullYear();
-
-    const month =
-        selectedDate.getMonth();
-
-    const totals = {};
-
-    categories.forEach(c => {
-        totals[c.id] = 0;
-    });
-
-
-    Object.keys(data).forEach(ds => {
-
-        const d = parseDate(ds);
-
-        if (
-            d.getFullYear() === year &&
-            d.getMonth() === month
-        ) {
-
-            categories.forEach(c => {
-
-                totals[c.id] +=
-                    Number(
-                        data[ds][c.id] || 0
-                    );
-
-            });
-
-        }
-
-    });
-
-
-    return totals;
-
-}
-
-
-function updateMonthlyBreakdown() {
-
-    const totals =
-        categoryTotals();
-
-    const total =
-        Object.values(totals)
-        .reduce(
-            (a,b) => a+b,
-            0
-        );
-
+    const list =
+        getDayExpenses(selectedDate);
 
     const container =
         document.getElementById(
-            "monthlyBreakdown"
+            "expenseList"
+        );
+
+    document
+        .getElementById("listTotal")
+        .textContent =
+        euro(getDayTotal(selectedDate));
+
+    container.innerHTML = "";
+
+    if (!list.length) {
+
+        container.innerHTML =
+            '<div class="empty">' +
+            '<div class="empty-icon">🧾</div>' +
+            'Δεν υπάρχουν έξοδα για αυτή την ημέρα.' +
+            '</div>';
+
+        return;
+    }
+
+    list.forEach(expense => {
+
+        const category =
+            getCategory(expense.category) ||
+            getCategory("other");
+
+        const item =
+            document.createElement("div");
+
+        item.className =
+            "expense-item";
+
+        item.innerHTML =
+            '<div class="expense-icon">' +
+            category.emoji +
+            '</div>' +
+
+            '<div class="expense-info">' +
+
+            '<div class="expense-name">' +
+            category.name +
+            '</div>' +
+
+            (expense.note
+                ? '<div class="expense-note">' +
+                  escapeHtml(expense.note) +
+                  '</div>'
+                : '') +
+
+            '</div>' +
+
+            '<div class="expense-amount">' +
+            euro(expense.amount) +
+            '</div>' +
+
+            '<div class="expense-actions">' +
+
+            '<button class="small-button" onclick="openEdit(\'' +
+            expense.id +
+            '\')">✏️</button>' +
+
+            '<button class="small-button delete-button" onclick="deleteExpense(\'' +
+            expense.id +
+            '\')">🗑</button>' +
+
+            '</div>';
+
+        container.appendChild(item);
+    });
+}
+
+
+function escapeHtml(text) {
+
+    return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+/* ΔΙΑΓΡΑΦΗ */
+
+function deleteExpense(id) {
+
+    if (
+        !confirm(
+            "Να διαγραφεί αυτό το έξοδο;"
+        )
+    ) {
+        return;
+    }
+
+    expenses =
+        expenses.filter(
+            expense =>
+                expense.id !== id
+        );
+
+    saveData();
+    renderAll();
+
+    showToast("✓ Το έξοδο διαγράφηκε");
+}
+
+
+/* ΕΠΕΞΕΡΓΑΣΙΑ */
+
+function openEdit(id) {
+
+    const expense =
+        expenses.find(
+            item => item.id === id
+        );
+
+    if (!expense) return;
+
+    editingId = id;
+
+    document
+        .getElementById("editAmount")
+        .value =
+        expense.amount;
+
+    document
+        .getElementById("editNote")
+        .value =
+        expense.note || "";
+
+    document
+        .getElementById("editModal")
+        .classList.add("show");
+}
+
+
+function closeEdit() {
+
+    editingId = null;
+
+    document
+        .getElementById("editModal")
+        .classList.remove("show");
+}
+
+
+function saveEdit() {
+
+    const expense =
+        expenses.find(
+            item =>
+                item.id === editingId
+        );
+
+    if (!expense) {
+        closeEdit();
+        return;
+    }
+
+    const amount =
+        parseFloat(
+            document
+                .getElementById("editAmount")
+                .value
+                .replace(",", ".")
+        );
+
+    if (!isFinite(amount) || amount <= 0) {
+        showToast("⚠️ Μη έγκυρο ποσό");
+        return;
+    }
+
+    expense.amount =
+        Math.round(amount * 100) / 100;
+
+    expense.note =
+        document
+            .getElementById("editNote")
+            .value
+            .trim();
+
+    saveData();
+    closeEdit();
+    renderAll();
+
+    showToast("✓ Έγινε ενημέρωση");
+}
+
+
+/* ΗΜΕΡΟΜΗΝΙΕΣ */
+
+function changeDay(days) {
+
+    selectedDate =
+        new Date(selectedDate);
+
+    selectedDate.setDate(
+        selectedDate.getDate() + days
+    );
+
+    renderAll();
+}
+
+
+function goToday() {
+
+    selectedDate = new Date();
+
+    renderAll();
+}
+
+
+function goToYesterday() {
+
+    selectedDate = new Date();
+
+    selectedDate.setDate(
+        selectedDate.getDate() - 1
+    );
+
+    showView("home");
+    renderAll();
+}
+
+
+function selectDate() {
+
+    const value =
+        document
+            .getElementById("datePicker")
+            .value;
+
+    if (value) {
+        selectedDate =
+            parseDate(value);
+    }
+
+    renderAll();
+}
+
+
+/* ΜΗΝΑΣ */
+
+function getMonthExpenses(date) {
+
+    return expenses.filter(expense => {
+
+        const expenseDate =
+            parseDate(expense.date);
+
+        return (
+            expenseDate.getFullYear() ===
+            date.getFullYear()
+            &&
+            expenseDate.getMonth() ===
+            date.getMonth()
+        );
+    });
+}
+
+
+function getMonthTotal(date) {
+
+    return getMonthExpenses(date)
+        .reduce(
+            (total, expense) =>
+                total + Number(expense.amount),
+            0
+        );
+}
+
+
+function renderMonth() {
+
+    const monthExpenses =
+        getMonthExpenses(selectedDate);
+
+    const total =
+        getMonthTotal(selectedDate);
+
+    const monthName =
+        selectedDate.toLocaleDateString(
+            "el-GR",
+            {
+                month: "long",
+                year: "numeric"
+            }
+        );
+
+    document
+        .getElementById("monthTotal")
+        .textContent =
+        euro(total);
+
+    document
+        .getElementById("monthDescription")
+        .textContent =
+        monthName +
+        " · " +
+        monthExpenses.length +
+        " καταχωρήσεις";
+
+    const totals = {};
+
+    categories.forEach(category => {
+        totals[category.id] = 0;
+    });
+
+    monthExpenses.forEach(expense => {
+
+        totals[expense.category] =
+            (totals[expense.category] || 0) +
+            Number(expense.amount);
+    });
+
+    const container =
+        document.getElementById(
+            "monthCategories"
         );
 
     container.innerHTML = "";
 
+    const sortedCategories =
+        categories
+            .filter(category =>
+                totals[category.id] > 0
+            )
+            .sort(
+                (a, b) =>
+                    totals[b.id] -
+                    totals[a.id]
+            );
 
-    const sorted =
-        [...categories]
-        .sort(
-            (a,b) =>
-                totals[b.id] -
-                totals[a.id]
-        );
+    if (!sortedCategories.length) {
 
+        container.innerHTML =
+            '<div class="empty">' +
+            'Δεν υπάρχουν έξοδα αυτόν τον μήνα.' +
+            '</div>';
+    }
 
-    sorted.forEach(category => {
+    sortedCategories.forEach(category => {
 
-        const amount =
-            totals[category.id];
-
-        if (amount <= 0) {
-            return;
-        }
-
-
-        const percent =
+        const percentage =
             total
-                ? amount / total * 100
+                ? (totals[category.id] / total) * 100
                 : 0;
-
 
         const row =
             document.createElement("div");
 
         row.className =
-            "month-row";
+            "month-category-row";
 
+        row.innerHTML =
+            '<div class="month-category-top">' +
 
-        row.innerHTML = `
+            '<div class="month-category-name">' +
+            category.emoji +
+            ' ' +
+            category.name +
+            '</div>' +
 
-            <div>
+            '<div class="month-category-value">' +
+            euro(totals[category.id]) +
+            '</div>' +
 
-                <strong>
-                    ${category.name}
-                </strong>
+            '</div>' +
 
-                <div class="small-progress">
-                    <div
-                        style="width:${percent}%"
-                    ></div>
-                </div>
+            '<div class="progress-bg">' +
 
-                <small>
-                    ${percent.toFixed(1)}%
-                </small>
+            '<div class="progress-fill" style="width:' +
+            percentage +
+            '%"></div>' +
 
-            </div>
-
-            <div class="month-value">
-                ${formatEuro(amount)}
-            </div>
-
-        `;
-
+            '</div>';
 
         container.appendChild(row);
-
     });
 
-
-    if (!container.innerHTML) {
-
-        container.innerHTML =
-            `<div style="color:#6b7280">
-                Δεν υπάρχουν έξοδα για αυτόν τον μήνα.
-            </div>`;
-
-    }
-
+    renderMonthDays();
 }
 
 
-/* ==================================================
-   BUDGET
-================================================== */
+function renderMonthDays() {
+
+    const container =
+        document.getElementById(
+            "monthDays"
+        );
+
+    const days = {};
+
+    getMonthExpenses(selectedDate)
+        .forEach(expense => {
+
+            days[expense.date] =
+                (days[expense.date] || 0) +
+                Number(expense.amount);
+        });
+
+    container.innerHTML = "";
+
+    const dates =
+        Object.keys(days)
+            .sort()
+            .reverse();
+
+    if (!dates.length) {
+
+        container.innerHTML =
+            '<div class="empty">' +
+            'Δεν υπάρχουν καταχωρήσεις.' +
+            '</div>';
+
+        return;
+    }
+
+    dates.forEach(dateValue => {
+
+        const date =
+            parseDate(dateValue);
+
+        const item =
+            document.createElement("div");
+
+        item.className =
+            "expense-item";
+
+        item.style.cursor =
+            "pointer";
+
+        item.innerHTML =
+            '<div class="expense-icon">📅</div>' +
+
+            '<div class="expense-info">' +
+
+            '<div class="expense-name">' +
+
+            date.toLocaleDateString(
+                "el-GR",
+                {
+                    weekday: "short",
+                    day: "numeric",
+                    month: "long"
+                }
+            ) +
+
+            '</div>' +
+
+            '</div>' +
+
+            '<div class="expense-amount">' +
+            euro(days[dateValue]) +
+            '</div>';
+
+        item.onclick = function() {
+
+            selectedDate = date;
+
+            showView("home");
+
+            renderAll();
+        };
+
+        container.appendChild(item);
+    });
+}
+
+
+/* ΠΡΟΒΟΛΕΣ */
+
+function showView(view) {
+
+    document
+        .querySelectorAll(".view")
+        .forEach(item =>
+            item.classList.remove("active")
+        );
+
+    document
+        .querySelectorAll(".nav-button")
+        .forEach(item =>
+            item.classList.remove("active")
+        );
+
+    if (view === "home") {
+
+        document
+            .getElementById("viewHome")
+            .classList.add("active");
+
+        document
+            .getElementById("navHome")
+            .classList.add("active");
+    }
+
+    if (view === "month") {
+
+        document
+            .getElementById("viewMonth")
+            .classList.add("active");
+
+        document
+            .getElementById("navMonth")
+            .classList.add("active");
+
+        renderMonth();
+    }
+
+    if (view === "settings") {
+
+        document
+            .getElementById("viewSettings")
+            .classList.add("active");
+
+        document
+            .getElementById("navSettings")
+            .classList.add("active");
+
+        renderSettings();
+    }
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
+/* BUDGET */
 
 function budgetKey() {
 
-    return `${selectedDate.getFullYear()}-${String(
-        selectedDate.getMonth() + 1
-    ).padStart(2,"0")}`;
-
+    return (
+        selectedDate.getFullYear() +
+        "-" +
+        String(
+            selectedDate.getMonth() + 1
+        ).padStart(2, "0")
+    );
 }
 
 
@@ -1396,865 +1795,150 @@ function saveBudget() {
 
     const value =
         parseFloat(
-            document.getElementById(
-                "budgetInput"
-            ).value
+            document
+                .getElementById("budgetInput")
+                .value
+                .replace(",", ".")
         );
 
+    const settings =
+        getSettings();
 
-    if (
-        isNaN(value) ||
-        value < 0
-    ) {
+    settings.budgets =
+        settings.budgets || {};
 
-        delete budgetData[
-            budgetKey()
-        ];
+    if (!isFinite(value) || value <= 0) {
+
+        delete settings.budgets[budgetKey()];
 
     } else {
 
-        budgetData[
-            budgetKey()
-        ] = value;
-
+        settings.budgets[budgetKey()] =
+            value;
     }
 
+    saveSettings(settings);
 
-    saveLocalBackup();
-
-    updateBudget();
-
+    renderSettings();
 }
 
 
-function updateBudget() {
+function renderSettings() {
 
-    const key =
-        budgetKey();
+    const settings =
+        getSettings();
 
     const budget =
         Number(
-            budgetData[key] || 0
+            (
+                settings.budgets &&
+                settings.budgets[budgetKey()]
+            ) || 0
         );
 
+    const spent =
+        getMonthTotal(selectedDate);
 
-    const total =
-        totalForMonth(
-            selectedDate.getFullYear(),
-            selectedDate.getMonth()
-        );
-
-
-    const input =
-        document.getElementById(
-            "budgetInput"
-        );
-
-
-    input.value =
+    document
+        .getElementById("budgetInput")
+        .value =
         budget || "";
-
-
-    const remaining =
-        budget - total;
-
 
     const text =
         document.getElementById(
-            "budgetRemaining"
+            "budgetText"
         );
-
-
-    if (!budget) {
-
-        text.textContent =
-            "Δεν έχει οριστεί budget.";
-
-    } else if (remaining >= 0) {
-
-        text.textContent =
-            `Σου μένουν ${formatEuro(remaining)} από το budget.`;
-
-    } else {
-
-        text.textContent =
-            `Έχεις ξεπεράσει το budget κατά ${formatEuro(
-                Math.abs(remaining)
-            )}.`;
-
-    }
-
 
     const progress =
         document.getElementById(
             "budgetProgress"
         );
 
+    if (!budget) {
 
-    let percent =
-        budget
-            ? total / budget * 100
-            : 0;
+        text.textContent =
+            "Δεν έχει οριστεί budget για αυτόν τον μήνα.";
 
+        progress.style.width =
+            "0%";
 
-    percent =
-        Math.min(
-            percent,
-            100
-        );
+        return;
+    }
 
+    const difference =
+        budget - spent;
 
-    progress.style.width =
-        percent + "%";
+    if (difference >= 0) {
 
-
-    if (total > budget && budget) {
-
-        progress.style.background =
-            "#dc2626";
+        text.textContent =
+            "Έχεις ξοδέψει " +
+            euro(spent) +
+            " από " +
+            euro(budget) +
+            ". Υπόλοιπο: " +
+            euro(difference);
 
     } else {
 
-        progress.style.background =
-            "#2563eb";
-
+        text.textContent =
+            "Έχεις ξεπεράσει το budget κατά " +
+            euro(Math.abs(difference));
     }
 
+    progress.style.width =
+        Math.min(
+            (spent / budget) * 100,
+            100
+        ) + "%";
+
+    progress.style.background =
+        spent > budget
+            ? "#dc2626"
+            : "#2563eb";
 }
 
 
-/* ==================================================
-   CHART
-================================================== */
+/* DARK MODE */
 
-function updateChart() {
+function toggleDarkMode() {
 
-    const canvas =
-        document.getElementById(
-            "categoryChart"
+    const dark =
+        document.body.classList.toggle(
+            "dark"
         );
 
-    const ctx =
-        canvas.getContext("2d");
+    const settings =
+        getSettings();
 
+    settings.dark = dark;
 
-    ctx.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
+    saveSettings(settings);
+
+    showToast(
+        dark
+            ? "🌙 Σκοτεινό θέμα"
+            : "☀️ Φωτεινό θέμα"
     );
-
-
-    const totals =
-        categoryTotals();
-
-
-    const items =
-        categories
-        .map(c => ({
-            name: c.name,
-            value: totals[c.id]
-        }))
-        .filter(x => x.value > 0)
-        .sort(
-            (a,b) =>
-                b.value - a.value
-        );
-
-
-    if (!items.length) {
-
-        ctx.font =
-            "16px Arial";
-
-        ctx.fillStyle =
-            "#6b7280";
-
-        ctx.fillText(
-            "Δεν υπάρχουν δεδομένα.",
-            20,
-            40
-        );
-
-        return;
-
-    }
-
-
-    const max =
-        Math.max(
-            ...items.map(
-                x => x.value
-            )
-        );
-
-
-    const left = 210;
-
-    const top = 20;
-
-    const barHeight = 22;
-
-    const gap = 16;
-
-
-    ctx.font =
-        "12px Arial";
-
-
-    items.forEach(
-        (item,index) => {
-
-            const y =
-                top +
-                index *
-                (barHeight + gap);
-
-
-            ctx.fillStyle =
-                "#374151";
-
-            ctx.fillText(
-                item.name.substring(0,28),
-                5,
-                y + 15
-            );
-
-
-            const width =
-                max
-                    ? 240 *
-                      item.value /
-                      max
-                    : 0;
-
-
-            ctx.fillStyle =
-                "#2563eb";
-
-            ctx.fillRect(
-                left,
-                y,
-                width,
-                barHeight
-            );
-
-
-            ctx.fillStyle =
-                "#111827";
-
-            ctx.fillText(
-                formatEuro(item.value),
-                left + width + 8,
-                y + 15
-            );
-
-        }
-    );
-
 }
 
 
-/* ==================================================
-   RECENT DAYS
-================================================== */
+/* BACKUP */
 
-function updateRecentDays() {
+function backupData() {
 
-    const container =
-        document.getElementById(
-            "recentDays"
-        );
-
-    container.innerHTML = "";
-
-
-    const dates =
-        Object.keys(data)
-        .filter(
-            ds =>
-                totalForDay(ds) > 0
-        )
-        .sort()
-        .reverse()
-        .slice(0, 10);
-
-
-    dates.forEach(ds => {
-
-        const d =
-            parseDate(ds);
-
-
-        const item =
-            document.createElement("div");
-
-        item.className =
-            "day-item";
-
-
-        item.innerHTML = `
-
-            <span>
-                ${d.toLocaleDateString(
-                    "el-GR",
-                    {
-                        weekday:"short",
-                        day:"numeric",
-                        month:"short"
-                    }
-                )}
-            </span>
-
-            <strong>
-                ${formatEuro(
-                    totalForDay(ds)
-                )}
-            </strong>
-
-        `;
-
-
-        item.onclick = () => {
-
-            selectedDate = d;
-
-            renderDay();
-
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
-
-        };
-
-
-        container.appendChild(item);
-
-    });
-
-
-    if (!container.innerHTML) {
-
-        container.innerHTML =
-            `<div style="color:#6b7280">
-                Δεν υπάρχουν προηγούμενες καταχωρήσεις.
-            </div>`;
-
-    }
-
-}
-
-
-/* ==================================================
-   ADVICE
-================================================== */
-
-function updateAdvice() {
-
-    const totals =
-        categoryTotals();
-
-
-    const sorted =
-        [...categories]
-        .sort(
-            (a,b) =>
-                totals[b.id] -
-                totals[a.id]
-        );
-
-
-    const biggest =
-        sorted.find(
-            c => totals[c.id] > 0
-        );
-
-
-    const advice =
-        document.getElementById(
-            "advice"
-        );
-
-
-    if (!biggest) {
-
-        advice.textContent =
-            "Καταχώρησε τα έξοδά σου για να εμφανιστεί ανάλυση.";
-
-        return;
-
-    }
-
-
-    const amount =
-        totals[biggest.id];
-
-
-    const total =
-        Object.values(totals)
-        .reduce(
-            (a,b) => a+b,
-            0
-        );
-
-
-    const percentage =
-        total
-            ? amount / total * 100
-            : 0;
-
-
-    advice.innerHTML = `
-
-        Η μεγαλύτερη κατηγορία εξόδων σου
-        αυτόν τον μήνα είναι
-        <strong>${biggest.name}</strong>,
-        με <strong>${formatEuro(amount)}</strong>.
-
-        Αυτό αντιστοιχεί περίπου στο
-        <strong>${percentage.toFixed(1)}%</strong>
-        των συνολικών εξόδων σου.
-
-    `;
-
-}
-
-
-/* ==================================================
-   DATE NAVIGATION
-================================================== */
-
-function previousDay() {
-
-    selectedDate.setDate(
-        selectedDate.getDate() - 1
-    );
-
-    renderDay();
-
-}
-
-
-function nextDay() {
-
-    selectedDate.setDate(
-        selectedDate.getDate() + 1
-    );
-
-    renderDay();
-
-}
-
-
-function today() {
-
-    selectedDate =
-        new Date();
-
-    renderDay();
-
-}
-
-
-function selectDate() {
-
-    const value =
-        document.getElementById(
-            "datePicker"
-        ).value;
-
-
-    if (value) {
-
-        selectedDate =
-            parseDate(value);
-
-        renderDay();
-
-    }
-
-}
-
-
-/* ==================================================
-   LOCAL BACKUP
-================================================== */
-
-/*
-   Κρατάμε και ένα μικρό backup
-   στο browser.
-
-   Αυτό ΔΕΝ αντικαθιστά το JSON αρχείο.
-*/
-
-function saveLocalBackup() {
-
-    localStorage.setItem(
-        "expense_backup",
-        JSON.stringify({
-            data: data,
-            budget: budgetData
-        })
-    );
-
-}
-
-
-function loadLocalBackup() {
-
-    try {
-
-        const raw =
-            localStorage.getItem(
-                "expense_backup"
-            );
-
-
-        if (!raw) {
-            return;
-        }
-
-
-        const obj =
-            JSON.parse(raw);
-
-
-        data =
-            obj.data || {};
-
-
-        budgetData =
-            obj.budget || {};
-
-
-    } catch(e) {
-
-        console.log(e);
-
-    }
-
-}
-
-
-/* ==================================================
-   FILE SYSTEM ACCESS API
-================================================== */
-
-async function connectFile() {
-
-    if (!window.showOpenFilePicker) {
-
-        alert(
-            "Ο browser σου δεν υποστηρίζει απευθείας σύνδεση με αρχείο.\n\nΧρησιμοποίησε Google Chrome ή Microsoft Edge."
-        );
-
-        return;
-
-    }
-
-
-    try {
-
-        const handles =
-            await window.showOpenFilePicker({
-                types: [
-                    {
-                        description:
-                            "JSON αρχείο εξοδολόγιου",
-                        accept: {
-                            "application/json":
-                                [".json"]
-                        }
-                    }
-                ],
-                multiple: false
-            });
-
-
-        fileHandle =
-            handles[0];
-
-
-        await loadFromFile();
-
-
-        document.getElementById(
-            "fileStatus"
-        ).textContent =
-            "📂 " +
-            (await fileHandle.getFile()).name;
-
-
-        toast(
-            "✓ Το αρχείο συνδέθηκε"
-        );
-
-
-    } catch(error) {
-
-        console.log(error);
-
-    }
-
-}
-
-
-/* ==================================================
-   SAVE TO JSON FILE
-================================================== */
-
-async function saveToFile(showMessage = true) {
-
-    if (!fileHandle) {
-
-        /*
-           Αν δεν έχει συνδεθεί αρχείο,
-           ζητάμε από τον χρήστη να επιλέξει
-           πού θα δημιουργηθεί.
-        */
-
-        if (!window.showSaveFilePicker) {
-
-            downloadJSON();
-
-            return;
-
-        }
-
-
-        try {
-
-            fileHandle =
-                await window.showSaveFilePicker({
-
-                    suggestedName:
-                        "exodologio.json",
-
-                    types: [
-                        {
-                            description:
-                                "JSON αρχείο",
-                            accept: {
-                                "application/json":
-                                    [".json"]
-                            }
-                        }
-                    ]
-
-                });
-
-        } catch(error) {
-
-            return;
-
-        }
-
-    }
-
-
-    const fileData = {
-
+    const data = {
+        app: "Το Εξοδολόγιό μου",
         version: 1,
-
-        updated:
-            new Date().toISOString(),
-
-        data: data,
-
-        budget: budgetData
-
+        created: new Date().toISOString(),
+        expenses: expenses,
+        settings: getSettings()
     };
-
-
-    const writable =
-        await fileHandle.createWritable();
-
-
-    await writable.write(
-        JSON.stringify(
-            fileData,
-            null,
-            2
-        )
-    );
-
-
-    await writable.close();
-
-
-    document.getElementById(
-        "fileStatus"
-    ).textContent =
-        "💾 Αποθηκευμένο: " +
-        (await fileHandle.getFile()).name;
-
-
-    saveLocalBackup();
-
-
-    if (showMessage) {
-
-        toast(
-            "✓ Αποθηκεύτηκε στο αρχείο"
-        );
-
-    }
-
-}
-
-
-/* ==================================================
-   LOAD FROM FILE
-================================================== */
-
-async function loadFromFile() {
-
-    if (!fileHandle) {
-
-        if (!window.showOpenFilePicker) {
-
-            alert(
-                "Χρησιμοποίησε Chrome ή Edge."
-            );
-
-            return;
-
-        }
-
-
-        try {
-
-            const handles =
-                await window.showOpenFilePicker({
-                    types: [
-                        {
-                            description:
-                                "JSON",
-                            accept: {
-                                "application/json":
-                                    [".json"]
-                            }
-                        }
-                    ]
-                });
-
-
-            fileHandle =
-                handles[0];
-
-        } catch(error) {
-
-            return;
-
-        }
-
-    }
-
-
-    try {
-
-        const file =
-            await fileHandle.getFile();
-
-
-        const text =
-            await file.text();
-
-
-        if (!text.trim()) {
-
-            data = {};
-
-            budgetData = {};
-
-        } else {
-
-            const obj =
-                JSON.parse(text);
-
-
-            /*
-               Υποστηρίζουμε και το format
-               της εφαρμογής και απλό JSON.
-            */
-
-            if (obj.data) {
-
-                data =
-                    obj.data || {};
-
-                budgetData =
-                    obj.budget || {};
-
-            } else {
-
-                data = obj;
-
-                budgetData = {};
-
-            }
-
-        }
-
-
-        saveLocalBackup();
-
-
-        document.getElementById(
-            "fileStatus"
-        ).textContent =
-            "📂 Φορτώθηκε: " +
-            file.name;
-
-
-        renderDay();
-
-
-        toast(
-            "✓ Τα δεδομένα φορτώθηκαν"
-        );
-
-
-    } catch(error) {
-
-        alert(
-            "Δεν ήταν δυνατή η φόρτωση του αρχείου.\n\nΤο αρχείο ίσως δεν είναι έγκυρο JSON."
-        );
-
-        console.error(error);
-
-    }
-
-}
-
-
-/* ==================================================
-   DOWNLOAD JSON
-================================================== */
-
-function downloadJSON() {
-
-    const fileData = {
-
-        version: 1,
-
-        updated:
-            new Date().toISOString(),
-
-        data: data,
-
-        budget: budgetData
-
-    };
-
 
     const blob =
         new Blob(
             [
                 JSON.stringify(
-                    fileData,
+                    data,
                     null,
                     2
                 )
@@ -2265,265 +1949,241 @@ function downloadJSON() {
             }
         );
 
-
     const url =
         URL.createObjectURL(blob);
 
-
-    const a =
+    const link =
         document.createElement("a");
 
+    link.href = url;
 
-    a.href = url;
+    link.download =
+        "exodologio-backup-" +
+        dateString(new Date()) +
+        ".json";
 
-    a.download =
-        "exodologio.json";
-
-
-    a.click();
-
+    link.click();
 
     URL.revokeObjectURL(url);
 
+    showToast("✓ Δημιουργήθηκε Backup");
 }
 
 
-/* ==================================================
-   NEW DATA FILE
-================================================== */
+function restoreData(event) {
 
-function newDataFile() {
+    const file =
+        event.target.files[0];
 
-    const confirmed =
-        confirm(
-            "Θέλεις να δημιουργήσεις νέο εξοδολόγιο;\n\nΤα τρέχοντα δεδομένα θα παραμείνουν στο παλιό αρχείο εφόσον έχουν αποθηκευτεί."
-        );
+    if (!file) return;
 
+    const reader =
+        new FileReader();
 
-    if (!confirmed) {
-        return;
-    }
+    reader.onload =
+        function(e) {
 
+            try {
 
-    data = {};
+                const data =
+                    JSON.parse(e.target.result);
 
-    budgetData = {};
+                if (
+                    !Array.isArray(
+                        data.expenses
+                    )
+                ) {
+                    throw new Error();
+                }
 
-    fileHandle = null;
+                if (
+                    !confirm(
+                        "Η επαναφορά θα αντικαταστήσει τα τρέχοντα δεδομένα. Συνέχεια;"
+                    )
+                ) {
+                    return;
+                }
 
+                expenses =
+                    data.expenses;
 
-    document.getElementById(
-        "fileStatus"
-    ).textContent =
-        "Νέο αρχείο — δεν έχει αποθηκευτεί";
+                if (data.settings) {
 
+                    saveSettings(
+                        data.settings
+                    );
+                }
 
-    renderDay();
+                saveData();
 
-    toast(
-        "✓ Δημιουργήθηκε νέο εξοδολόγιο"
-    );
+                if (
+                    getSettings().dark
+                ) {
+                    document.body.classList.add(
+                        "dark"
+                    );
+                } else {
+                    document.body.classList.remove(
+                        "dark"
+                    );
+                }
 
+                renderAll();
+
+                showToast(
+                    "✓ Το Backup φορτώθηκε"
+                );
+
+            } catch (error) {
+
+                alert(
+                    "Το αρχείο Backup δεν είναι έγκυρο."
+                );
+            }
+        };
+
+    reader.readAsText(file);
+
+    event.target.value = "";
 }
 
 
-/* ==================================================
-   CSV EXPORT
-================================================== */
+/* CSV */
 
 function exportCSV() {
 
-    const rows = [];
+    const rows = [
+        [
+            "Ημερομηνία",
+            "Κατηγορία",
+            "Ποσό",
+            "Σημείωση"
+        ]
+    ];
 
+    expenses.forEach(expense => {
 
-    rows.push([
-        "Ημερομηνία",
-        "Κατηγορία",
-        "Ποσό"
-    ]);
+        const category =
+            getCategory(expense.category) ||
+            getCategory("other");
 
-
-    Object.keys(data)
-    .sort()
-    .forEach(ds => {
-
-        categories.forEach(c => {
-
-            const amount =
-                Number(
-                    data[ds][c.id] || 0
-                );
-
-
-            if (amount > 0) {
-
-                rows.push([
-                    ds,
-                    c.name.replace(
-                        /[^\p{L}\p{N} /&.-]/gu,
-                        ""
-                    ),
-                    amount.toFixed(2)
-                ]);
-
-            }
-
-        });
-
+        rows.push([
+            expense.date,
+            category.name,
+            Number(expense.amount).toFixed(2),
+            expense.note || ""
+        ]);
     });
-
 
     const csv =
         rows
-        .map(row =>
-            row.map(
-                value =>
-                    `"${String(value)
-                        .replace(/"/g,'""')}"`
-            ).join(";")
-        )
-        .join("\n");
-
-
-    /*
-       BOM για σωστή εμφάνιση
-       ελληνικών στο Excel.
-    */
+            .map(row =>
+                row
+                    .map(value =>
+                        '"' +
+                        String(value)
+                            .replace(/"/g, '""') +
+                        '"'
+                    )
+                    .join(";")
+            )
+            .join("\n");
 
     const blob =
         new Blob(
             ["\uFEFF" + csv],
             {
                 type:
-                    "text/csv;charset=utf-8;"
+                    "text/csv;charset=utf-8"
             }
         );
-
 
     const url =
         URL.createObjectURL(blob);
 
-
-    const a =
+    const link =
         document.createElement("a");
 
+    link.href = url;
+    link.download = "exodologio.csv";
 
-    a.href = url;
-
-    a.download =
-        "exodologio-export.csv";
-
-
-    a.click();
-
+    link.click();
 
     URL.revokeObjectURL(url);
 
-
-    toast(
-        "✓ Δημιουργήθηκε CSV"
-    );
-
+    showToast("✓ Δημιουργήθηκε το CSV");
 }
 
 
-/* ==================================================
-   DELETE EVERYTHING
-================================================== */
+/* ΔΙΑΓΡΑΦΗ ΟΛΩΝ */
 
 function deleteEverything() {
 
-    const confirmed =
-        confirm(
-            "ΠΡΟΣΟΧΗ!\n\nΘέλεις να διαγράψεις όλα τα έξοδα από την εφαρμογή;\n\nΑν υπάρχουν αποθηκευμένα στο JSON αρχείο, το αρχείο δεν θα αλλάξει μέχρι να πατήσεις Αποθήκευση."
-        );
-
-
-    if (!confirmed) {
+    if (
+        !confirm(
+            "Θέλεις να διαγράψεις ΟΛΑ τα έξοδα;"
+        )
+    ) {
         return;
     }
 
+    if (
+        !confirm(
+            "Είσαι απολύτως σίγουρος;"
+        )
+    ) {
+        return;
+    }
 
-    data = {};
+    expenses = [];
 
-    budgetData = {};
+    saveData();
 
+    renderAll();
 
-    saveLocalBackup();
-
-    renderDay();
-
-
-    toast(
-        "✓ Διαγράφηκαν τα δεδομένα από την εφαρμογή"
+    showToast(
+        "✓ Όλα τα δεδομένα διαγράφηκαν"
     );
-
 }
 
 
-/* ==================================================
-   KEYBOARD SHORTCUTS
-================================================== */
+/* TOAST */
 
-document.addEventListener(
-    "keydown",
-    function(event) {
+function showToast(message) {
 
-        /*
-           Ctrl + S
-        */
+    const toast =
+        document.getElementById("toast");
 
-        if (
-            event.ctrlKey &&
-            event.key.toLowerCase() === "s"
-        ) {
+    toast.textContent = message;
 
-            event.preventDefault();
+    toast.classList.add("show");
 
-            saveToFile();
+    clearTimeout(window.toastTimer);
 
-        }
-
-        /*
-           Alt + ←
-        */
-
-        if (
-            event.altKey &&
-            event.key === "ArrowLeft"
-        ) {
-
-            previousDay();
-
-        }
-
-        /*
-           Alt + →
-        */
-
-        if (
-            event.altKey &&
-            event.key === "ArrowRight"
-        ) {
-
-            nextDay();
-
-        }
-
-    }
-);
+    window.toastTimer =
+        setTimeout(
+            function() {
+                toast.classList.remove("show");
+            },
+            1800
+        );
+}
 
 
-/* ==================================================
-   START
-================================================== */
+/* ΑΡΧΙΚΟΠΟΙΗΣΗ */
 
-loadLocalBackup();
+function renderAll() {
 
-renderDay();
+    renderDay();
+    renderMonth();
+}
+
+
+loadData();
+buildCategories();
+renderAll();
 
 </script>
 
 </body>
 </html>
-
