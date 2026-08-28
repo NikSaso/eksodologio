@@ -10,7 +10,7 @@ const APP_FILES = [
 
 self.addEventListener("install", event => {
 
-```
+
 event.waitUntil(
 
     caches
@@ -55,7 +55,7 @@ event.waitUntil(
         )
 
 );
-```
+
 
 });
 
