@@ -1,0 +1,4045 @@
+<!DOCTYPE html>
+<html lang="el">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>COMPOUND — Fitness Exercise Library</title>
+
+  <meta
+    name="description"
+    content="Μεγάλη βιβλιοθήκη πολυαρθρικών ασκήσεων γυμναστικής."
+  >
+
+  <style>
+
+    /* =====================================================
+       VARIABLES
+    ===================================================== */
+
+    :root {
+
+      --bg: #070809;
+      --bg2: #0d0f12;
+      --card: #13161a;
+      --card2: #191c21;
+
+      --text: #f5f6f7;
+      --muted: #9298a2;
+
+      --line: #292e36;
+
+      --accent: #b7ff35;
+      --accent-hover: #c7ff5e;
+
+      --danger: #ff5964;
+
+      --radius: 18px;
+
+      --max-width: 1250px;
+
+    }
+
+
+    /* =====================================================
+       RESET
+    ===================================================== */
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+
+    body {
+
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+      background: var(--bg);
+
+      color: var(--text);
+
+      line-height: 1.6;
+
+    }
+
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+
+    button {
+      cursor: pointer;
+    }
+
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+
+    .container {
+
+      width:
+        min(
+          calc(100% - 40px),
+          var(--max-width)
+        );
+
+      margin: auto;
+
+    }
+
+
+    /* =====================================================
+       NAVBAR
+    ===================================================== */
+
+    .navbar {
+
+      position: sticky;
+
+      top: 0;
+
+      z-index: 1000;
+
+      background:
+        rgba(7, 8, 9, .92);
+
+      backdrop-filter: blur(18px);
+
+      border-bottom:
+        1px solid rgba(255,255,255,.07);
+
+    }
+
+
+    .nav-inner {
+
+      height: 76px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 25px;
+
+    }
+
+
+    .logo {
+
+      font-size: 24px;
+
+      font-weight: 900;
+
+      letter-spacing: -1px;
+
+    }
+
+
+    .logo span {
+      color: var(--accent);
+    }
+
+
+    .nav-links {
+
+      display: flex;
+
+      gap: 30px;
+
+      list-style: none;
+
+    }
+
+
+    .nav-links a {
+
+      color: #c4c7cc;
+
+      font-size: 14px;
+
+      transition: .2s;
+
+    }
+
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+
+    .nav-button {
+
+      background: var(--accent);
+
+      color: #090a0b;
+
+      border: none;
+
+      padding: 11px 18px;
+
+      border-radius: 999px;
+
+      font-weight: 800;
+
+    }
+
+
+    .nav-button:hover {
+      background: var(--accent-hover);
+    }
+
+
+    /* =====================================================
+       HERO
+    ===================================================== */
+
+    .hero {
+
+      min-height: 650px;
+
+      display: flex;
+
+      align-items: center;
+
+      position: relative;
+
+      overflow: hidden;
+
+      background:
+
+        radial-gradient(
+          circle at 80% 30%,
+          rgba(183,255,53,.14),
+          transparent 30%
+        ),
+
+        radial-gradient(
+          circle at 15% 80%,
+          rgba(183,255,53,.07),
+          transparent 25%
+        );
+
+    }
+
+
+    .hero-content {
+
+      padding: 100px 0;
+
+      max-width: 850px;
+
+    }
+
+
+    .eyebrow {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+
+      color: var(--accent);
+
+      text-transform: uppercase;
+
+      font-size: 12px;
+
+      font-weight: 900;
+
+      letter-spacing: 2px;
+
+      margin-bottom: 20px;
+
+    }
+
+
+    .eyebrow::before {
+
+      content: "";
+
+      width: 30px;
+
+      height: 2px;
+
+      background: var(--accent);
+
+    }
+
+
+    .hero h1 {
+
+      font-size:
+        clamp(50px, 8vw, 95px);
+
+      line-height: .94;
+
+      letter-spacing: -5px;
+
+      margin-bottom: 28px;
+
+    }
+
+
+    .hero h1 span {
+      color: var(--accent);
+    }
+
+
+    .hero p {
+
+      color: var(--muted);
+
+      max-width: 700px;
+
+      font-size: 18px;
+
+      margin-bottom: 35px;
+
+    }
+
+
+    .hero-buttons {
+
+      display: flex;
+
+      gap: 12px;
+
+      flex-wrap: wrap;
+
+    }
+
+
+    .btn {
+
+      border: 1px solid var(--line);
+
+      background: transparent;
+
+      color: white;
+
+      padding: 13px 20px;
+
+      border-radius: 10px;
+
+      font-weight: 800;
+
+      transition: .2s;
+
+    }
+
+
+    .btn:hover {
+
+      background: var(--card);
+
+      border-color: #414751;
+
+    }
+
+
+    .btn-primary {
+
+      background: var(--accent);
+
+      color: #080908;
+
+      border-color: var(--accent);
+
+    }
+
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+    }
+
+
+    /* =====================================================
+       STATS
+    ===================================================== */
+
+    .stats {
+
+      background: var(--bg2);
+
+      border-top: 1px solid var(--line);
+
+      border-bottom: 1px solid var(--line);
+
+    }
+
+
+    .stats-grid {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(4, 1fr);
+
+    }
+
+
+    .stat {
+
+      text-align: center;
+
+      padding: 28px;
+
+      border-right: 1px solid var(--line);
+
+    }
+
+
+    .stat:last-child {
+      border-right: none;
+    }
+
+
+    .stat strong {
+
+      display: block;
+
+      color: var(--accent);
+
+      font-size: 30px;
+
+    }
+
+
+    .stat span {
+
+      color: var(--muted);
+
+      font-size: 13px;
+
+    }
+
+
+    /* =====================================================
+       SECTIONS
+    ===================================================== */
+
+    section {
+      padding: 90px 0;
+    }
+
+
+    .section-header {
+
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: end;
+
+      gap: 30px;
+
+      margin-bottom: 35px;
+
+    }
+
+
+    .section-header h2 {
+
+      font-size:
+        clamp(32px, 5vw, 50px);
+
+      line-height: 1;
+
+      letter-spacing: -2px;
+
+    }
+
+
+    .section-header p {
+
+      max-width: 500px;
+
+      color: var(--muted);
+
+    }
+
+
+    /* =====================================================
+       FILTERS
+    ===================================================== */
+
+    .tools {
+
+      display: grid;
+
+      grid-template-columns:
+        1fr 190px 190px;
+
+      gap: 12px;
+
+      margin-bottom: 30px;
+
+    }
+
+
+    .input,
+    .select {
+
+      width: 100%;
+
+      padding: 14px 16px;
+
+      border-radius: 11px;
+
+      border: 1px solid var(--line);
+
+      background: var(--bg2);
+
+      color: white;
+
+      outline: none;
+
+    }
+
+
+    .input:focus,
+    .select:focus {
+
+      border-color: var(--accent);
+
+    }
+
+
+    /* =====================================================
+       EXERCISE GRID
+    ===================================================== */
+
+    .exercise-grid {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 18px;
+
+    }
+
+
+    .exercise-card {
+
+      background: var(--card);
+
+      border: 1px solid var(--line);
+
+      border-radius: var(--radius);
+
+      overflow: hidden;
+
+      transition: .25s;
+
+    }
+
+
+    .exercise-card:hover {
+
+      transform: translateY(-5px);
+
+      background: var(--card2);
+
+      border-color: #3c424b;
+
+    }
+
+
+    .exercise-image-wrapper {
+
+      height: 220px;
+
+      overflow: hidden;
+
+      position: relative;
+
+      background: #101216;
+
+    }
+
+
+    .exercise-image {
+
+      width: 100%;
+
+      height: 100%;
+
+      object-fit: cover;
+
+      transition: .4s;
+
+    }
+
+
+    .exercise-card:hover
+    .exercise-image {
+
+      transform: scale(1.05);
+
+    }
+
+
+    .exercise-number {
+
+      position: absolute;
+
+      top: 14px;
+
+      right: 14px;
+
+      background: rgba(0,0,0,.7);
+
+      backdrop-filter: blur(8px);
+
+      padding: 5px 9px;
+
+      border-radius: 7px;
+
+      font-size: 11px;
+
+      font-weight: 900;
+
+      color: var(--accent);
+
+    }
+
+
+    .exercise-content {
+
+      padding: 22px;
+
+    }
+
+
+    .exercise-icon {
+
+      width: 44px;
+
+      height: 44px;
+
+      display: grid;
+
+      place-items: center;
+
+      background:
+        rgba(183,255,53,.1);
+
+      border-radius: 12px;
+
+      margin-bottom: 15px;
+
+      font-size: 22px;
+
+    }
+
+
+    .exercise-card h3 {
+
+      font-size: 21px;
+
+      margin-bottom: 7px;
+
+    }
+
+
+    .exercise-card p {
+
+      color: var(--muted);
+
+      font-size: 14px;
+
+      margin-bottom: 15px;
+
+    }
+
+
+    .tags {
+
+      display: flex;
+
+      flex-wrap: wrap;
+
+      gap: 6px;
+
+    }
+
+
+    .tag {
+
+      font-size: 11px;
+
+      color: #c6cad0;
+
+      border: 1px solid var(--line);
+
+      padding: 4px 8px;
+
+      border-radius: 999px;
+
+    }
+
+
+    .details-button {
+
+      width: 100%;
+
+      margin-top: 18px;
+
+      padding: 11px;
+
+      background: transparent;
+
+      color: white;
+
+      border: 1px solid var(--line);
+
+      border-radius: 9px;
+
+      font-weight: 800;
+
+      transition: .2s;
+
+    }
+
+
+    .details-button:hover {
+
+      border-color: var(--accent);
+
+      color: var(--accent);
+
+    }
+
+
+    .empty {
+
+      display: none;
+
+      padding: 50px;
+
+      text-align: center;
+
+      color: var(--muted);
+
+      border: 1px dashed var(--line);
+
+      border-radius: var(--radius);
+
+    }
+
+
+    /* =====================================================
+       PROGRAMS
+    ===================================================== */
+
+    .programs {
+
+      background: var(--bg2);
+
+    }
+
+
+    .program-grid {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 18px;
+
+    }
+
+
+    .program {
+
+      background: var(--card);
+
+      border: 1px solid var(--line);
+
+      border-radius: var(--radius);
+
+      padding: 28px;
+
+    }
+
+
+    .program-level {
+
+      color: var(--accent);
+
+      font-size: 11px;
+
+      font-weight: 900;
+
+      text-transform: uppercase;
+
+      letter-spacing: 1px;
+
+      margin-bottom: 10px;
+
+    }
+
+
+    .program h3 {
+
+      font-size: 25px;
+
+      margin-bottom: 10px;
+
+    }
+
+
+    .program p {
+
+      color: var(--muted);
+
+      font-size: 14px;
+
+      margin-bottom: 20px;
+
+    }
+
+
+    .program ul {
+
+      list-style: none;
+
+      margin-bottom: 20px;
+
+    }
+
+
+    .program li {
+
+      border-bottom: 1px solid var(--line);
+
+      padding: 9px 0;
+
+      font-size: 14px;
+
+    }
+
+
+    .program li::before {
+
+      content: "✓";
+
+      color: var(--accent);
+
+      margin-right: 9px;
+
+      font-weight: 900;
+
+    }
+
+
+    /* =====================================================
+       EDUCATION
+    ===================================================== */
+
+    .education-grid {
+
+      display: grid;
+
+      grid-template-columns:
+        1.2fr .8fr;
+
+      gap: 18px;
+
+    }
+
+
+    .info-card {
+
+      background: var(--card);
+
+      border: 1px solid var(--line);
+
+      border-radius: var(--radius);
+
+      padding: 30px;
+
+    }
+
+
+    .info-card h3 {
+
+      font-size: 27px;
+
+      margin-bottom: 15px;
+
+    }
+
+
+    .info-card p {
+
+      color: var(--muted);
+
+      margin-bottom: 15px;
+
+    }
+
+
+    .principle {
+
+      padding: 15px 0;
+
+      border-bottom: 1px solid var(--line);
+
+    }
+
+
+    .principle:last-child {
+      border-bottom: none;
+    }
+
+
+    .principle strong {
+
+      display: block;
+
+      margin-bottom: 3px;
+
+    }
+
+
+    .principle span {
+
+      color: var(--muted);
+
+      font-size: 14px;
+
+    }
+
+
+    /* =====================================================
+       FOOTER
+    ===================================================== */
+
+    footer {
+
+      background: #050607;
+
+      border-top: 1px solid var(--line);
+
+      padding: 40px 0;
+
+    }
+
+
+    .footer-inner {
+
+      display: flex;
+
+      justify-content: space-between;
+
+      color: var(--muted);
+
+      font-size: 13px;
+
+    }
+
+
+    /* =====================================================
+       MODAL
+    ===================================================== */
+
+    .modal-overlay {
+
+      position: fixed;
+
+      inset: 0;
+
+      z-index: 3000;
+
+      display: none;
+
+      align-items: center;
+
+      justify-content: center;
+
+      padding: 20px;
+
+      background:
+        rgba(0,0,0,.82);
+
+      backdrop-filter: blur(10px);
+
+    }
+
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+
+    .modal {
+
+      width:
+        min(800px, 100%);
+
+      max-height: 92vh;
+
+      overflow-y: auto;
+
+      background: #111419;
+
+      border: 1px solid var(--line);
+
+      border-radius: 22px;
+
+      position: relative;
+
+    }
+
+
+    .modal-image {
+
+      width: 100%;
+
+      height: 360px;
+
+      object-fit: cover;
+
+    }
+
+
+    .modal-content {
+
+      padding: 30px;
+
+    }
+
+
+    .modal-close {
+
+      position: absolute;
+
+      right: 18px;
+
+      top: 18px;
+
+      z-index: 10;
+
+      width: 40px;
+
+      height: 40px;
+
+      border: none;
+
+      border-radius: 50%;
+
+      background: rgba(0,0,0,.75);
+
+      color: white;
+
+      font-size: 22px;
+
+    }
+
+
+    .modal h2 {
+
+      font-size: 38px;
+
+      line-height: 1;
+
+      margin-bottom: 10px;
+
+    }
+
+
+    .modal-description {
+
+      color: var(--muted);
+
+      margin-bottom: 20px;
+
+    }
+
+
+    .modal-info-grid {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(4, 1fr);
+
+      gap: 10px;
+
+      margin: 25px 0;
+
+    }
+
+
+    .modal-stat {
+
+      background: var(--card);
+
+      border: 1px solid var(--line);
+
+      padding: 15px;
+
+      border-radius: 12px;
+
+    }
+
+
+    .modal-stat small {
+
+      display: block;
+
+      color: var(--muted);
+
+      font-size: 10px;
+
+      text-transform: uppercase;
+
+      margin-bottom: 4px;
+
+    }
+
+
+    .modal-stat strong {
+
+      font-size: 14px;
+
+    }
+
+
+    .modal-section {
+
+      margin-top: 28px;
+
+    }
+
+
+    .modal-section h4 {
+
+      color: var(--accent);
+
+      text-transform: uppercase;
+
+      letter-spacing: 1px;
+
+      font-size: 12px;
+
+      margin-bottom: 10px;
+
+    }
+
+
+    .modal-section ul {
+
+      padding-left: 20px;
+
+    }
+
+
+    .modal-section li,
+    .modal-section p {
+
+      color: #c7cbd1;
+
+      font-size: 14px;
+
+      margin-bottom: 6px;
+
+    }
+
+
+    .warning {
+
+      border-left: 3px solid var(--danger);
+
+      background: rgba(255,89,100,.06);
+
+      padding: 15px;
+
+      border-radius: 8px;
+
+    }
+
+
+    /* =====================================================
+       MOBILE
+    ===================================================== */
+
+    @media (max-width: 950px) {
+
+      .nav-links {
+        display: none;
+      }
+
+
+      .exercise-grid {
+        grid-template-columns:
+          repeat(2, 1fr);
+      }
+
+
+      .program-grid {
+        grid-template-columns:
+          repeat(2, 1fr);
+      }
+
+
+      .education-grid {
+        grid-template-columns: 1fr;
+      }
+
+
+      .tools {
+        grid-template-columns:
+          1fr 1fr;
+      }
+
+
+      .tools .input {
+        grid-column: 1 / -1;
+      }
+
+    }
+
+
+    @media (max-width: 600px) {
+
+      .container {
+
+        width:
+          calc(100% - 24px);
+
+      }
+
+
+      section {
+        padding: 65px 0;
+      }
+
+
+      .hero {
+        min-height: auto;
+      }
+
+
+      .hero-content {
+        padding: 80px 0;
+      }
+
+
+      .hero h1 {
+
+        font-size: 52px;
+
+        letter-spacing: -3px;
+
+      }
+
+
+      .hero p {
+        font-size: 16px;
+      }
+
+
+      .stats-grid {
+
+        grid-template-columns:
+          repeat(2, 1fr);
+
+      }
+
+
+      .stat {
+
+        border-bottom:
+          1px solid var(--line);
+
+      }
+
+
+      .stat:nth-child(2n) {
+        border-right: none;
+      }
+
+
+      .exercise-grid,
+      .program-grid {
+
+        grid-template-columns: 1fr;
+
+      }
+
+
+      .tools {
+
+        grid-template-columns: 1fr;
+
+      }
+
+
+      .section-header {
+
+        display: block;
+
+      }
+
+
+      .section-header p {
+
+        margin-top: 15px;
+
+      }
+
+
+      .modal-image {
+
+        height: 230px;
+
+      }
+
+
+      .modal-content {
+
+        padding: 22px;
+
+      }
+
+
+      .modal h2 {
+
+        font-size: 30px;
+
+      }
+
+
+      .modal-info-grid {
+
+        grid-template-columns:
+          repeat(2, 1fr);
+
+      }
+
+
+      .footer-inner {
+
+        display: block;
+
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <!-- =====================================================
+       NAVBAR
+  ===================================================== -->
+
+  <nav class="navbar">
+
+    <div class="container nav-inner">
+
+      <a href="#" class="logo">
+        COMPOUND<span>.</span>
+      </a>
+
+
+      <ul class="nav-links">
+
+        <li>
+          <a href="#exercises">
+            Ασκήσεις
+          </a>
+        </li>
+
+        <li>
+          <a href="#programs">
+            Προγράμματα
+          </a>
+        </li>
+
+        <li>
+          <a href="#guides">
+            Οδηγοί
+          </a>
+        </li>
+
+      </ul>
+
+
+      <a
+        href="#exercises"
+        class="nav-button"
+      >
+        Βρες άσκηση
+      </a>
+
+    </div>
+
+  </nav>
+
+
+
+  <!-- =====================================================
+       HERO
+  ===================================================== -->
+
+  <header class="hero">
+
+    <div class="container hero-content">
+
+      <div class="eyebrow">
+        Strength Training Library
+      </div>
+
+
+      <h1>
+
+        Χτίσε δύναμη.<br>
+
+        Κάνε
+        <span>
+          compound.
+        </span>
+
+      </h1>
+
+
+      <p>
+
+        Μια μεγάλη βιβλιοθήκη πολυαρθρικών ασκήσεων
+        για δύναμη, μυϊκή ανάπτυξη και καλύτερη φυσική
+        κατάσταση. Βρες την άσκηση, δες την εικόνα,
+        μάθε την τεχνική και φτιάξε το δικό σου πρόγραμμα.
+
+      </p>
+
+
+      <div class="hero-buttons">
+
+        <a
+          href="#exercises"
+          class="btn btn-primary"
+        >
+          Εξερεύνησε τις ασκήσεις
+        </a>
+
+
+        <a
+          href="#programs"
+          class="btn"
+        >
+          Προγράμματα
+        </a>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+
+  <!-- =====================================================
+       STATS
+  ===================================================== -->
+
+  <div class="stats">
+
+    <div class="container stats-grid">
+
+      <div class="stat">
+
+        <strong>
+          30+
+        </strong>
+
+        <span>
+          Ασκήσεις
+        </span>
+
+      </div>
+
+
+      <div class="stat">
+
+        <strong>
+          6
+        </strong>
+
+        <span>
+          Κατηγορίες
+        </span>
+
+      </div>
+
+
+      <div class="stat">
+
+        <strong>
+          3
+        </strong>
+
+        <span>
+          Επίπεδα
+        </span>
+
+      </div>
+
+
+      <div class="stat">
+
+        <strong>
+          100%
+        </strong>
+
+        <span>
+          Responsive
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       EXERCISES
+  ===================================================== -->
+
+  <section id="exercises">
+
+    <div class="container">
+
+
+      <div class="section-header">
+
+        <div>
+
+          <div class="eyebrow">
+            Exercise Library
+          </div>
+
+          <h2>
+            Πολυαρθρικές ασκήσεις
+          </h2>
+
+        </div>
+
+
+        <p>
+
+          Αναζήτησε ανά άσκηση, μυϊκή ομάδα
+          ή επίπεδο δυσκολίας.
+
+        </p>
+
+      </div>
+
+
+
+      <!-- FILTERS -->
+
+      <div class="tools">
+
+        <input
+          id="search"
+          class="input"
+          type="text"
+          placeholder="🔎 Αναζήτηση άσκησης..."
+        >
+
+
+        <select
+          id="muscleFilter"
+          class="select"
+        >
+
+          <option value="all">
+            Όλοι οι μύες
+          </option>
+
+          <option value="legs">
+            Πόδια
+          </option>
+
+          <option value="chest">
+            Στήθος
+          </option>
+
+          <option value="back">
+            Πλάτη
+          </option>
+
+          <option value="shoulders">
+            Ώμοι
+          </option>
+
+          <option value="full">
+            Full Body
+          </option>
+
+        </select>
+
+
+        <select
+          id="levelFilter"
+          class="select"
+        >
+
+          <option value="all">
+            Όλα τα επίπεδα
+          </option>
+
+          <option value="beginner">
+            Αρχάριος
+          </option>
+
+          <option value="intermediate">
+            Μέτριος
+          </option>
+
+          <option value="advanced">
+            Προχωρημένος
+          </option>
+
+        </select>
+
+      </div>
+
+
+
+      <div
+        id="exerciseGrid"
+        class="exercise-grid"
+      ></div>
+
+
+      <div
+        id="empty"
+        class="empty"
+      >
+
+        Δεν βρέθηκε άσκηση με αυτά τα κριτήρια.
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =====================================================
+       PROGRAMS
+  ===================================================== -->
+
+  <section
+    id="programs"
+    class="programs"
+  >
+
+    <div class="container">
+
+
+      <div class="section-header">
+
+        <div>
+
+          <div class="eyebrow">
+            Training Plans
+          </div>
+
+          <h2>
+            Προγράμματα
+          </h2>
+
+        </div>
+
+
+        <p>
+
+          Έτοιμες δομές προπόνησης βασισμένες
+          σε compound movements.
+
+        </p>
+
+      </div>
+
+
+
+      <div class="program-grid">
+
+
+        <article class="program">
+
+          <div class="program-level">
+            BEGINNER
+          </div>
+
+          <h3>
+            Full Body 3×
+          </h3>
+
+          <p>
+            Για αρχάριους που θέλουν να μάθουν
+            τα βασικά movement patterns.
+          </p>
+
+          <ul>
+
+            <li>
+              Goblet Squat — 3×10
+            </li>
+
+            <li>
+              Push-Up — 3×10
+            </li>
+
+            <li>
+              Lat Pulldown — 3×10
+            </li>
+
+            <li>
+              Romanian Deadlift — 3×10
+            </li>
+
+            <li>
+              Dumbbell Press — 3×10
+            </li>
+
+          </ul>
+
+          <button class="btn btn-primary">
+            Ξεκίνα
+          </button>
+
+        </article>
+
+
+
+        <article class="program">
+
+          <div class="program-level">
+            INTERMEDIATE
+          </div>
+
+          <h3>
+            Upper / Lower
+          </h3>
+
+          <p>
+            Τέσσερις ημέρες την εβδομάδα με
+            περισσότερη ένταση.
+          </p>
+
+          <ul>
+
+            <li>
+              Back Squat — 4×6
+            </li>
+
+            <li>
+              Bench Press — 4×6
+            </li>
+
+            <li>
+              Barbell Row — 4×8
+            </li>
+
+            <li>
+              Romanian Deadlift — 3×8
+            </li>
+
+            <li>
+              Overhead Press — 3×8
+            </li>
+
+          </ul>
+
+          <button class="btn btn-primary">
+            Ξεκίνα
+          </button>
+
+        </article>
+
+
+
+        <article class="program">
+
+          <div class="program-level">
+            ADVANCED
+          </div>
+
+          <h3>
+            Strength
+          </h3>
+
+          <p>
+            Έμφαση στη δύναμη και την προοδευτική
+            αύξηση φορτίου.
+          </p>
+
+          <ul>
+
+            <li>
+              Deadlift — 5×3
+            </li>
+
+            <li>
+              Squat — 5×5
+            </li>
+
+            <li>
+              Bench Press — 5×5
+            </li>
+
+            <li>
+              Weighted Pull-Up — 4×6
+            </li>
+
+            <li>
+              Overhead Press — 4×6
+            </li>
+
+          </ul>
+
+          <button class="btn btn-primary">
+            Ξεκίνα
+          </button>
+
+        </article>
+
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =====================================================
+       GUIDES
+  ===================================================== -->
+
+  <section id="guides">
+
+    <div class="container">
+
+
+      <div class="section-header">
+
+        <div>
+
+          <div class="eyebrow">
+            Education
+          </div>
+
+          <h2>
+            Μάθε να προπονείσαι
+          </h2>
+
+        </div>
+
+
+        <p>
+
+          Η σωστή προπόνηση δεν είναι μόνο
+          το βάρος που σηκώνεις.
+
+        </p>
+
+      </div>
+
+
+
+      <div class="education-grid">
+
+
+        <article class="info-card">
+
+          <h3>
+            Γιατί compound ασκήσεις;
+          </h3>
+
+
+          <p>
+
+            Οι πολυαρθρικές ασκήσεις χρησιμοποιούν
+            περισσότερες από μία αρθρώσεις και πολλές
+            μυϊκές ομάδες ταυτόχρονα.
+
+          </p>
+
+
+          <p>
+
+            Παραδείγματα είναι το squat, το deadlift,
+            το bench press, το pull-up, το row και
+            το overhead press.
+
+          </p>
+
+
+          <p>
+
+            Είναι ιδιαίτερα χρήσιμες για την ανάπτυξη
+            δύναμης, μυϊκής μάζας και γενικής
+            προπονητικής ικανότητας.
+
+          </p>
+
+        </article>
+
+
+
+        <article class="info-card">
+
+          <h3>
+            Βασικές αρχές
+          </h3>
+
+
+          <div class="principle">
+
+            <strong>
+              Progressive Overload
+            </strong>
+
+            <span>
+              Σταδιακά μεγαλύτερη προπονητική πρόκληση.
+            </span>
+
+          </div>
+
+
+          <div class="principle">
+
+            <strong>
+              Technique First
+            </strong>
+
+            <span>
+              Η σωστή τεχνική προηγείται του βάρους.
+            </span>
+
+          </div>
+
+
+          <div class="principle">
+
+            <strong>
+              Recovery
+            </strong>
+
+            <span>
+              Ύπνος και αποκατάσταση είναι μέρος της προπόνησης.
+            </span>
+
+          </div>
+
+
+          <div class="principle">
+
+            <strong>
+              Consistency
+            </strong>
+
+            <span>
+              Η συνέπεια για μήνες κερδίζει την προσωρινή υπερπροσπάθεια.
+            </span>
+
+          </div>
+
+        </article>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =====================================================
+       FOOTER
+  ===================================================== -->
+
+  <footer>
+
+    <div class="container footer-inner">
+
+      <div>
+        © 2026 COMPOUND.
+      </div>
+
+      <div>
+        Strength • Technique • Progress
+      </div>
+
+    </div>
+
+  </footer>
+
+
+
+  <!-- =====================================================
+       MODAL
+  ===================================================== -->
+
+  <div
+    id="modalOverlay"
+    class="modal-overlay"
+  >
+
+    <div class="modal">
+
+
+      <button
+        id="modalClose"
+        class="modal-close"
+      >
+        ×
+      </button>
+
+
+      <div id="modalBody"></div>
+
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       JAVASCRIPT
+  ===================================================== -->
+
+  <script>
+
+
+    /* =====================================================
+       EXERCISE DATABASE
+    ===================================================== */
+
+    const exercises = [
+
+      {
+        name: "Back Squat",
+        icon: "🏋️",
+        muscle: "legs",
+        level: "intermediate",
+
+        image:
+          "https://cdn.thehinh.com/2016/09/Bai-tap-chan-to-Squat-dung.jpg",
+
+        description:
+          "Βασική πολυαρθρική άσκηση για δύναμη στα πόδια και σταθερότητα του κορμού.",
+
+        muscles:
+          "Τετρακέφαλοι, γλουτοί, οπίσθιοι μηριαίοι, κορμός",
+
+        equipment:
+          "Μπάρα + squat rack",
+
+        difficulty:
+          "Μέτρια",
+
+        sets:
+          "3–5",
+
+        reps:
+          "5–10",
+
+        technique: [
+
+          "Τοποθέτησε τη μπάρα σταθερά στην πλάτη.",
+
+          "Σφίξε κοιλιακούς και γλουτούς.",
+
+          "Λύγισε γόνατα και ισχία ταυτόχρονα.",
+
+          "Κατέβα ελεγχόμενα.",
+
+          "Πίεσε το πάτωμα και επέστρεψε όρθιος."
+
+        ],
+
+        mistakes: [
+
+          "Τα γόνατα πέφτουν προς τα μέσα.",
+
+          "Χάνεται η σταθερότητα του κορμού.",
+
+          "Χρησιμοποιείται υπερβολικό βάρος."
+
+        ]
+
+      },
+
+
+      {
+        name: "Deadlift",
+        icon: "🏋️",
+        muscle: "full",
+        level: "advanced",
+
+        image:
+          "https://static.tildacdn.com/tild6539-3230-4431-b366-646131303366/image.png",
+
+        description:
+          "Ισχυρή άσκηση για ολόκληρη την οπίσθια αλυσίδα.",
+
+        muscles:
+          "Γλουτοί, οπίσθιοι μηριαίοι, ραχιαίοι, τραπεζοειδείς, κορμός",
+
+        equipment:
+          "Μπάρα",
+
+        difficulty:
+          "Προχωρημένη",
+
+        sets:
+          "3–5",
+
+        reps:
+          "3–6",
+
+        technique: [
+
+          "Τοποθέτησε τα πόδια κάτω από τη μπάρα.",
+
+          "Κράτησε ουδέτερη σπονδυλική στήλη.",
+
+          "Πιάσε τη μπάρα και δημιούργησε τάση.",
+
+          "Σπρώξε το πάτωμα.",
+
+          "Κράτησε τη μπάρα κοντά στα πόδια."
+
+        ],
+
+        mistakes: [
+
+          "Στρογγύλεμα της πλάτης.",
+
+          "Η μπάρα απομακρύνεται από το σώμα.",
+
+          "Απότομο τράβηγμα χωρίς tension."
+
+        ]
+
+      },
+
+
+      {
+        name: "Bench Press",
+        icon: "🏋️",
+        muscle: "chest",
+        level: "intermediate",
+
+        image:
+          "https://www.coachweb.com/sites/coach/files/styles/16_9_media_tiny/public/2023/06/bench-press.jpg",
+
+        description:
+          "Κλασική πολυαρθρική άσκηση πίεσης για το άνω μέρος του σώματος.",
+
+        muscles:
+          "Στήθος, τρικέφαλοι, πρόσθιοι δελτοειδείς",
+
+        equipment:
+          "Μπάρα + πάγκος",
+
+        difficulty:
+          "Μέτρια",
+
+        sets:
+          "3–5",
+
+        reps:
+          "5–10",
+
+        technique: [
+
+          "Ξάπλωσε σταθερά στον πάγκο.",
+
+          "Κράτησε τις ωμοπλάτες σταθερές.",
+
+          "Κατέβασε τη μπάρα ελεγχόμενα.",
+
+          "Πίεσε προς τα πάνω."
+
+        ],
+
+        mistakes: [
+
+          "Αστάθεια στους ώμους.",
+
+          "Αναπήδηση της μπάρας.",
+
+          "Υπερβολικό βάρος."
+
+        ]
+
+      },
+
+
+      {
+        name: "Front Squat",
+        icon: "🦵",
+        muscle: "legs",
+        level: "advanced",
+
+        image:
+          "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=1000&q=80",
+
+        description:
+          "Squat variation με μεγαλύτερη απαίτηση από τον κορμό.",
+
+        muscles:
+          "Τετρακέφαλοι, γλουτοί, κορμός",
+
+        equipment:
+          "Μπάρα",
+
+        difficulty:
+          "Προχωρημένη",
+
+        sets:
+          "3–4",
+
+        reps:
+          "5–8",
+
+        technique: [
+
+          "Τοποθέτησε τη μπάρα μπροστά στους ώμους.",
+
+          "Κράτησε τους αγκώνες ψηλά.",
+
+          "Κατέβα ελεγχόμενα.",
+
+          "Πίεσε δυνατά προς τα πάνω."
+
+        ],
+
+        mistakes: [
+
+          "Πτώση αγκώνων.",
+
+          "Απώλεια κορμού.",
+
+          "Βιαστική κάθοδος."
+
+        ]
+
+      },
+
+
+      {
+        name: "Romanian Deadlift",
+        icon: "🦵",
+        muscle: "legs",
+        level: "intermediate",
+
+        image:
+          "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1a?auto=format&fit=crop&w=1000&q=80",
+
+        description:
+          "Hip hinge με έμφαση στους οπίσθιους μηριαίους.",
+
+        muscles:
+          "Οπίσθιοι μηριαίοι, γλουτοί, ραχιαίοι",
+
+        equipment:
+          "Μπάρα ή αλτήρες",
+
+        difficulty:
+          "Μέτρια",
+
+        sets:
+          "3–4",
+
+        reps:
+          "6–12",
+
+        technique: [
+
+          "Ξεκίνα όρθιος.",
+
+          "Στείλε τους γοφούς προς τα πίσω.",
+
+          "Κράτησε τη μπάρα κοντά στα πόδια.",
+
+          "Επέστρεψε χρησιμοποιώντας τους γλουτούς."
+
+        ],
+
+        mistakes: [
+
+          "Μετατροπή σε squat.",
+
+          "Στρογγύλεμα πλάτης.",
+
+          "Υπερβολικό εύρος."
+
+        ]
+
+      },
+
+
+      {
+        name: "Overhead Press",
+        icon: "💪",
+        muscle: "shoulders",
+        level: "intermediate",
+
+        image:
+          "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=1000&q=80",
+
+        description:
+          "Πολυαρθρική άσκηση πίεσης πάνω από το κεφάλι.",
+
+        muscles:
+          "Ώμοι, τρικέφαλοι, άνω στήθος, κορμός",
+
+        equipment:
+          "Μπάρα ή αλτήρες",
+
+        difficulty:
+          "Μέτρια",
+
+        sets:
+          "3–4",
+
+        reps:
+          "6–10",
+
+        technique: [
+
+          "Ξεκίνα με τη μπάρα στους ώμους.",
+
+          "Σφίξε γλουτούς και κοιλιακούς.",
+
+          "Πίεσε κάθετα προς τα πάνω.",
+
+          "Σταθεροποίησε το βάρος πάνω από το κεφάλι."
+
+        ],
+
+        mistakes: [
+
+          "Υπερβολική έκταση στη μέση.",
+
+          "Χρήση momentum.",
+
+          "Αστάθεια καρπών."
+
+        ]
+
+      },
+
+
+      {
+        name: "Pull-Up",
+        icon: "🔝",
+        muscle: "back",
+        level: "intermediate",
+
+        image:
+          "https://images.unsplash.com/photo-1598971639058-fab3c3109a00?auto=format&fit=crop&w=1000&q=80",
+
+        description:
+          "Bodyweight compound movement για πλάτη και δικέφαλους.",
+
+        muscles:
+          "Πλατύς ραχιαίος, δικέφαλοι, άνω πλάτη",
+
+        equipment:
+          "Μονόζυγο",
+
+        difficulty:
+          "Μέτρια",
+
+        sets:
+          "3–4",
+
+        reps:
+          "5–12",
+
+        technique: [
+
+          "Κρέμασε το σώμα με ενεργούς ώμους.",
+
+          "Τράβηξε τους αγκώνες προς τα κάτω.",
+
+          "Φέρε το στήθος προς τη μπάρα.",
+
+          "Κατέβασε ελεγχόμενα."
+
+        ],
+
+        mistakes: [
+
+          "Υπερβολικό swinging.",
+
+          "Μισές επαναλήψεις.",
+
+          "Απώλεια ελέγχου στην κάθοδο."
+
+        ]
+
+      },
+
+
+      {
+        name: "Chin-Up",
+        icon: "🔝",
+        muscle: "back",
+        level: "intermediate",
+
+        image:
+          "https://images.unsplash.com/photo-1598971639058-fab3c3109a00?auto=format&fit=crop&w=1000&q=80",
+
+        description:
+          "Έλξη με ύπτια λαβή και μεγαλύτερη συμμετοχή των δικεφάλων.",
+
+        muscles:
+          "Πλατύς ραχιαίος, δικέφαλοι, άνω πλάτη",
+
+        equipment:
+          "Μονόζυγο",
+
+        difficulty:
+          "Μέτρια",
+
+        sets:
+          "3–4",
+
+        reps:
+          "5–12",
+
+        technique: [
+
+          "Πιάσε το μονόζυγο με ύπτια λαβή.",
+
+          "Τράβηξε το σώμα προς τη μπάρα.",
+
+          "Κράτησε τον κορμό ελεγχόμενο.",
+
+          "Κατέβα αργά."
+
+        ],
+
+        mistakes: [
+
+          "Swing.",
+
+          "Μισές επαναλήψεις.",
+
+          "Απώλεια ελέγχου."
+
+        ]
+
+      },
+
+
+      {
+        name: "Barbell Row",
+        icon: "💪",
+        muscle: "back",
+        level: "intermediate",
+
+        image:
+          "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=1000&q=80",
+
+        description:
+          "Compound row για ανάπτυξη της πλάτης.",
+
+        muscles:
+          "Πλάτη, οπίσθιοι δελτοειδείς, δικέφαλοι",
+
+        equipment:
+          "Μπάρα",
+
+        difficulty:
+          "Μέτρια",
+
+        sets:
+          "3–4",
+
+        reps:
+          "6–10",
+
+        technique: [
+
+          "Λύγισε τα ισχία.",
+
+          "Κράτησε ουδέτερη πλάτη.",
+
+          "Τράβηξε τη μπάρα προς τον κορμό.",
+
+          "Κατέβασε ελεγχόμενα."
+
+        ],
+
+        mistakes: [
+
+          "Υπερβολικό momentum.",
+
+          "Στρογγύλεμα πλάτης.",
+
+          "Υπερβολικό βάρος."
+
+        ]
+
+      },
+
+
+      {
+        name: "Pendlay Row",
+        icon: "🏋️",
+        muscle: "back",
+        level: "advanced",
+
+        image:
+          "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=1000&q=80",
+
+        description:
+          "Δυναμική οριζόντια έλξη με κάθε επανάληψη από το έδαφος.",
+
+        muscles:
+          "Πλάτη, τραπεζοειδείς, δικέφαλοι",
+
+        equipment:
+          "Μπάρα",
+
+        difficulty:
+          "Προχωρημένη",
+
+        sets:
+          "3–5",
+
+        reps:
+          "5–8",
+
+        technique: [
+
+          "Ξεκίνα με τη μπάρα στο έδαφος.",
+
+          "Πάρε σταθερή θέση hinge.",
+
+          "Τράβηξε δυνατά τη μπάρα.",
+
+          "Επέστρεψε τη μπάρα στο έδαφος."
+
+        ],
+
+        mistakes: [
+
+          "Κίνηση κορμού.",
+
+          "Στρογγύλεμα πλάτης.",
+
+          "Υπερβολικό βάρος."
+
+        ]
+
+      },
+
+
+      {
+        name: "Bulgarian Split Squat",
+        icon: "🦵",
+        muscle: "legs",
+        level: "intermediate",
+
+        image:
+          "https://images.unsplash.com/photo-1434608519344-49d77a699ded?auto=format&fit=crop&w=1000&q=80",
+
+        description:
+          "Μονόπλευρη άσκηση για πόδια, γλουτούς και ισορροπία.",
+
+        muscles:
+          "Τετρακέφαλοι, γλουτοί, οπίσθιοι μηριαίοι",
+
+        equipment:
+          "Πάγκος + αλτήρες",
+
+        difficulty:
+          "Μέτρια",
+
+        sets:
+          "3–4",
+
+        reps:
+          "8–12",
+
+        technique: [
+
+          "Τοποθέτησε το πίσω πόδι σε πάγκο.",
+
+          "Κατέβασε το μπροστινό γόνατο.",
+
+          "Κράτησε τον κορμό σταθερό.",
+
+          "Πίεσε από το μπροστινό πόδι."
+
+        ],
+
+        mistakes: [
+
+          "Κατάρρευση γονάτου.",
+
+          "Αστάθεια.",
+
+          "Πολύ μεγάλο βάρος."
+
+        ]
+
+      },
+
+
+      {
+        name: "Lunges",
+        icon: "🚶",
+        muscle: "legs",
+        level: "beginner",
+
+        image:
+          "https://images.unsplash.com/photo-1434608519344-49d77a699ded?auto=format&fit=crop&w=1000&q=80",
+
+        description:
+          "Βασική μονόπλευρη άσκηση για τα κάτω άκρα.",
+
+        muscles:
+          "Τετρακέφαλοι, γλουτοί, οπίσθιοι μηριαίοι",
+
+        equipment:
+          "Σωματικό βάρος ή αλτήρες",
+
+        difficulty:
+          "Αρχάριο",
+
+        sets:
+          "3",
+
+        reps:
+          "8–12 / πόδι",
+
+        technique: [
+
+          "Κάνε ένα ελεγχόμενο βήμα.",
+
+          "Κατέβασε το σώμα κάθετα.",
+
+          "Κράτησε το μπροστινό πόδι σταθερό.",
+
+          "Επέστρεψε στην αρχική θέση."
+
+        ],
+
+        mistakes: [
+
+          "Πολύ μικρό βήμα.",
+
+          "Απώλεια ισορροπίας.",
+
+          "Βιαστική κίνηση."
+
+        ]
+
+      },
+
+
+      {
+        name: "Walking Lunge",
+        icon: "🚶",
+        muscle: "legs",
+        level: "beginner",
+
+        image:
+          "https://images.unsplash.com/photo-1434608519344-49d77a699ded?auto=format&fit=crop&w=1000&q=80",
+
+        description:
+          "Δυναμική παραλλαγή των προβολών.",
+
+        muscles:
+          "Γλουτοί, τετρακέφαλοι, οπίσθιοι μηριαίοι",
+
+        equipment:
+          "Σωματικό βάρος ή αλτήρες",
+
+        difficulty:
+          "Αρχάριο",
+
+        sets:
+          "3",
+
+        reps:
+          "10–15 / πόδι",
+
+        technique: [
+
+          "Κάνε βήμα μπροστά.",
+
+          "Κατέβα ελεγχόμενα.",
+
+          "Πέρασε το πίσω πόδι μπροστά.",
+
+          "Συνέχισε εναλλάξ."
+
+        ],
+
+        mistakes: [
+
+          "Αστάθεια.",
+
+          "Πολύ μικρό βήμα.",
+
+          "Απώλεια ελέγχου."
+
+        ]
+
+      },
+
+
+      {
+        name: "Goblet Squat",
+        icon: "🏋️",
+        muscle: "legs",
+        level: "beginner",
+
+        image:
+          "https://images.unsplash.com/photo-1566241142559-40e1dab266c6?auto=format&fit=crop&w=1000&q=80",
+
+        description:
+          "Εξαιρετική εισαγωγή στο squat pattern.",
+
+        muscles:
+          "Τετρακέφαλοι, γλουτοί, κορμός",
+
+        equipment:
+          "Αλτήρας ή kettlebell",
+
+        difficulty:
+          "Αρχάριο",
+
+        sets:
+          "3",
+
+        reps:
+          "8–15",
+
+        technique: [
+
+          "Κράτησε το βάρος μπροστά από το στήθος.",
+
+          "Κάθισε προς τα κάτω.",
+
+          "Κράτησε τον κορμό σταθερό.",
+
+          "Πίεσε το πάτωμα για να ανέβεις."
+
+        ],
+
+        mistakes: [
+
+          "Σήκωμα φτέρνας.",
+
+          "Κατάρρευση γονάτων.",
+
+          "Βιαστική κίνηση."
+
+        ]
+
+      },
+
+
+      {
+        name: "Push-Up",
+        icon: "🔥",
+        muscle: "chest",
+        level: "beginner",
+
+        image:
+          "https://images.unsplash.com/photo-1598971639058-fab3c3109a00?auto=format&fit=crop&w=1000&q=80",
+
+        description:
+          "Κλασική bodyweight πολυαρθρική άσκηση.",
+
+        muscles:
+          "Στήθος, τρικέφαλοι, ώμοι, κορμός",
+
+        equipment:
+          "Κανένας",
+
+        difficulty:
+          "Αρχάριο",
+
+        sets:
+          "3",
+
+        reps:
+          "8–20",
+
+        technique: [
+
+          "Κράτησε το σώμα σε ευθεία.",
+
+          "Σφίξε κοιλιακούς και γλουτούς.",
+
+          "Κατέβασε το στήθος.",
+
+          "Πίεσε το έδαφος."
+
+        ],
+
+        mistakes: [
+
+          "Πτώση λεκάνης.",
+
+          "Αγκώνες υπερβολικά ανοιχτοί.",
+
+          "Μισές επαναλήψεις."
+
+        ]
+
+      },
+
+
+      {
+        name: "Dips",
+        icon: "💪",
+        muscle: "chest",
+        level: "intermediate",
+
+        image:
+          "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1a?auto=format&fit=crop&w=1000&q=80",
+
+        description:
+          "Bodyweight pushing movement για στήθος και τρικέφαλους.",
+
+        muscles:
+          "Στήθος, τρικέφαλοι, πρόσθιοι ώμοι",
+
+        equipment:
+          "Parallel bars",
+
+        difficulty:
+          "Μέτρια",
+
+        sets:
+          "3–4",
+
+        reps:
+          "6–12",
+
+        technique: [
+
+          "Σταθεροποίησε τους ώμους.",
+
+          "Κατέβασε το σώμα ελεγχόμενα.",
+
+          "Κράτησε τους αγκώνες σταθερούς.",
+
+          "Πίεσε δυνατά προς τα πάνω."
+
+        ],
+
+        mistakes: [
+
+          "Υπερβολικό βάθος.",
+
+          "Ώμοι πολύ μπροστά.",
+
+          "Swing."
+
+        ]
+
+      },
+
+
+      {
+        name: "Incline Dumbbell Press",
+        icon: "🏋️",
+        muscle: "chest",
+        level: "beginner",
+
+        image:
+          "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1000&q=80",
+
+        description:
+          "Πίεση με αλτήρες σε επικλινή πάγκο.",
+
+        muscles:
+          "Άνω στήθος, τρικέφαλοι, ώμοι",
+
+        equipment:
+          "Αλτήρες + πάγκος",
+
+        difficulty:
+          "Αρχάριο",
+
+        sets:
+          "3–4",
+
+        reps:
+          "8–12",
+
+        technique: [
+
+          "Στήριξε καλά την πλάτη.",
+
+          "Κατέβασε τους αλτήρες.",
+
+          "Κράτησε τους καρπούς σταθερούς.",
+
+          "Πίεσε προς τα πάνω."
+
+        ],
+
+        mistakes: [
+
+          "Πολύ μεγάλη κλίση.",
+
+          "Αστάθεια ώμων.",
+
+          "Momentum."
+
+        ]
+
+      },
+
+
+      {
+        name: "Close Grip Bench Press",
+        icon: "💪",
+        muscle: "chest",
+        level: "intermediate",
+
+        image:
+          "https://www.coachweb.com/sites/coach/files/styles/16_9_media_tiny/public/2023/06/bench-press.jpg",
+
+        description:
+          "Bench press με στενότερη λαβή και μεγαλύτερη συμμετοχή των τρικεφάλων.",
+
+        muscles:
+          "Τρικέφαλοι, στήθος, ώμοι",
+
+        equipment:
+          "Μπάρα + πάγκος",
+
+        difficulty:
+          "Μέτρια",
+
+        sets:
+          "3–4",
+
+        reps:
+          "6–10",
+
+        technique: [
+
+          "Πάρε ελεγχόμενο πλάτος λαβής.",
+
+          "Κράτησε τους αγκώνες σχετικά κοντά.",
+
+          "Κατέβασε τη μπάρα.",
+
+          "Πίεσε προς τα πάνω."
+
+        ],
+
+        mistakes: [
+
+          "Υπερβολικά στενή λαβή.",
+
+          "Αστάθεια καρπών.",
+
+          "Αναπήδηση."
+
+        ]
+
+      },
+
+
+      {
+        name: "Kettlebell Swing",
+        icon: "⚡",
+        muscle: "full",
+        level: "intermediate",
+
+        image:
+          "https://images.unsplash.com/photo-1517963879433-6ad2b056d3f7?auto=format&fit=crop&w=1000&q=80",
+
+        description:
+          "Εκρηκτική άσκηση hip hinge.",
+
+        muscles:
+          "Γλουτοί, οπίσθιοι μηριαίοι, κορμός, ώμοι",
+
+        equipment:
+          "Kettlebell",
+
+        difficulty:
+          "Μέτρια",
+
+        sets:
+          "3–5",
+
+        reps:
+          "10–20",
+
+        technique: [
+
+          "Ξεκίνα με το kettlebell μπροστά.",
+
+          "Στείλε τους γοφούς πίσω.",
+
+          "Δημιούργησε δύναμη από τα ισχία.",
+
+          "Άφησε το βάρος να ανέβει από την ορμή."
+
+        ],
+
+        mistakes: [
+
+          "Μετατροπή σε squat.",
+
+          "Σήκωμα με τους ώμους.",
+
+          "Υπερέκταση μέσης."
+
+        ]
+
+      },
+
+
+      {
+        name: "Thruster",
+        icon: "🔥",
+        muscle: "full",
+        level: "advanced",
+
+        image:
+          "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1000&q=80",
+
+        description:
+          "Συνδυασμός squat και overhead press.",
+
+        muscles:
+          "Πόδια, γλουτοί, ώμοι, τρικέφαλοι, κορμός",
+
+        equipment:
+          "Αλτήρες ή μπάρα",
+
+        difficulty:
+          "Προχωρημένη",
+
+        sets:
+          "3–4",
+
+        reps:
+          "8–12",
+
+        technique: [
+
+          "Ξεκίνα με βάρη στους ώμους.",
+
+          "Εκτέλεσε squat.",
+
+          "Χρησιμοποίησε τη δύναμη των ποδιών.",
+
+          "Συνέχισε σε overhead press."
+
+        ],
+
+        mistakes: [
+
+          "Απώλεια κορμού.",
+
+          "Κακή αναπνοή.",
+
+          "Υπερβολικό βάρος."
+
+        ]
+
+      },
+
+
+      {
+        name: "Farmer's Walk",
+        icon: "🚶",
+        muscle: "full",
+        level: "beginner",
+
+        image:
+          "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=1000&q=80",
+
+        description:
+          "Carry movement για grip και συνολική σταθερότητα.",
+
+        muscles:
+          "Λαβή, τραπεζοειδείς, κορμός, πόδια",
+
+        equipment:
+          "Βαρείς αλτήρες",
+
+        difficulty:
+          "Αρχάριο",
+
+        sets:
+          "3–5",
+
+        reps:
+          "20–40 μέτρα",
+
+        technique: [
+
+          "Πιάσε δύο βαριά βάρη.",
+
+          "Στάσου ψηλά.",
+
+          "Περπάτησε σταθερά.",
+
+          "Κράτησε ενεργό τον κορμό."
+
+        ],
+
+        mistakes: [
+
+          "Καμπουριαστή στάση.",
+
+          "Πολύ γρήγορο περπάτημα.",
+
+          "Χαλαροί ώμοι."
+
+        ]
+
+      },
+
+
+      {
+        name: "Trap Bar Deadlift",
+        icon: "🏋️",
+        muscle: "full",
+        level: "beginner",
+
+        image:
+          "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1a?auto=format&fit=crop&w=1000&q=80",
+
+        description:
+          "Deadlift variation που είναι συχνά πιο εύκολο να διδαχθεί.",
+
+        muscles:
+          "Γλουτοί, τετρακέφαλοι, οπίσθιοι μηριαίοι, κορμός",
+
+        equipment:
+          "Trap bar",
+
+        difficulty:
+          "Αρχάριο",
+
+        sets:
+          "3–4",
+
+        reps:
+          "5–8",
+
+        technique: [
+
+          "Στάσου στο κέντρο της trap bar.",
+
+          "Πιάσε τις λαβές.",
+
+          "Δημιούργησε τάση.",
+
+          "Πίεσε το πάτωμα."
+
+        ],
+
+        mistakes: [
+
+          "Κατάρρευση γονάτων.",
+
+          "Χαλαρή αρχική θέση.",
+
+          "Υπερβολικό βάρος."
+
+        ]
+
+      },
+
+
+      {
+        name: "Barbell Hip Thrust",
+        icon: "🍑",
+        muscle: "legs",
+        level: "intermediate",
+
+        image:
+          "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=1000&q=80",
+
+        description:
+          "Ισχυρή άσκηση έκτασης ισχίου.",
+
+        muscles:
+          "Γλουτοί, οπίσθιοι μηριαίοι",
+
+        equipment:
+          "Μπάρα + πάγκος",
+
+        difficulty:
+          "Μέτρια",
+
+        sets:
+          "3–4",
+
+        reps:
+          "8–12",
+
+        technique: [
+
+          "Στήριξε την πλάτη στον πάγκο.",
+
+          "Τοποθέτησε τη μπάρα στους γοφούς.",
+
+          "Πίεσε μέσω των φτερνών.",
+
+          "Σφίξε τους γλουτούς στην κορυφή."
+
+        ],
+
+        mistakes: [
+
+          "Υπερέκταση μέσης.",
+
+          "Απώλεια ελέγχου.",
+
+          "Μικρό εύρος."
+
+        ]
+
+      },
+
+
+      {
+        name: "Push Press",
+        icon: "💥",
+        muscle: "shoulders",
+        level: "intermediate",
+
+        image:
+          "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1000&q=80",
+
+        description:
+          "Overhead press με βοήθεια από τα πόδια.",
+
+        muscles:
+          "Ώμοι, τρικέφαλοι, πόδια, κορμός",
+
+        equipment:
+          "Μπάρα ή αλτήρες",
+
+        difficulty:
+          "Μέτρια",
+
+        sets:
+          "3–4",
+
+        reps:
+          "5–10",
+
+        technique: [
+
+          "Ξεκίνα με το βάρος στους ώμους.",
+
+          "Κάνε μικρό dip.",
+
+          "Οδήγησε το βάρος προς τα πάνω.",
+
+          "Σταθεροποίησε πάνω από το κεφάλι."
+
+        ],
+
+        mistakes: [
+
+          "Υπερβολικό dip.",
+
+          "Καμπύλη στη μέση.",
+
+          "Αστάθεια."
+
+        ]
+
+      },
+
+
+      {
+        name: "Clean & Press",
+        icon: "⚡",
+        muscle: "full",
+        level: "advanced",
+
+        image:
+          "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1000&q=80",
+
+        description:
+          "Εκρηκτικός συνδυασμός έλξης και πίεσης.",
+
+        muscles:
+          "Πόδια, γλουτοί, ώμοι, τραπεζοειδείς, κορμός",
+
+        equipment:
+          "Μπάρα",
+
+        difficulty:
+          "Προχωρημένη",
+
+        sets:
+          "3–5",
+
+        reps:
+          "3–6",
+
+        technique: [
+
+          "Τράβηξε τη μπάρα από το έδαφος.",
+
+          "Χρησιμοποίησε εκρηκτική έκταση ισχίων.",
+
+          "Υποδέξου τη μπάρα στους ώμους.",
+
+          "Πίεσε πάνω από το κεφάλι."
+
+        ],
+
+        mistakes: [
+
+          "Λάθος υποδοχή.",
+
+          "Υπερβολικό βάρος.",
+
+          "Έλλειψη ελέγχου."
+
+        ]
+
+      },
+
+
+      {
+        name: "Single Leg Romanian Deadlift",
+        icon: "🦵",
+        muscle: "legs",
+        level: "intermediate",
+
+        image:
+          "https://images.unsplash.com/photo-1434608519344-49d77a699ded?auto=format&fit=crop&w=1000&q=80",
+
+        description:
+          "Μονόπλευρο hip hinge για ισορροπία και δύναμη.",
+
+        muscles:
+          "Γλουτοί, οπίσθιοι μηριαίοι, κορμός",
+
+        equipment:
+          "Αλτήρας",
+
+        difficulty:
+          "Μέτρια",
+
+        sets:
+          "3",
+
+        reps:
+          "8–12 / πόδι",
+
+        technique: [
+
+          "Στήριξε το βάρος στο ένα πόδι.",
+
+          "Στείλε το ισχίο πίσω.",
+
+          "Κράτησε την πλάτη ουδέτερη.",
+
+          "Επέστρεψε με τον γλουτό."
+
+        ],
+
+        mistakes: [
+
+          "Περιστροφή λεκάνης.",
+
+          "Απώλεια ισορροπίας.",
+
+          "Υπερβολικό βάρος."
+
+        ]
+
+      },
+
+
+      {
+        name: "Sled Push",
+        icon: "🔥",
+        muscle: "full",
+        level: "beginner",
+
+        image:
+          "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1000&q=80",
+
+        description:
+          "Conditioning movement με έμφαση στα πόδια και στον κορμό.",
+
+        muscles:
+          "Τετρακέφαλοι, γλουτοί, γάμπες, κορμός",
+
+        equipment:
+          "Sled",
+
+        difficulty:
+          "Αρχάριο",
+
+        sets:
+          "4–6",
+
+        reps:
+          "15–30 μέτρα",
+
+        technique: [
+
+          "Πιάσε τις λαβές.",
+
+          "Γείρε ελαφρά μπροστά.",
+
+          "Σπρώξε δυνατά το έδαφος.",
+
+          "Κράτησε σταθερό ρυθμό."
+
+        ],
+
+        mistakes: [
+
+          "Πολύ όρθια στάση.",
+
+          "Πολύ μεγάλο φορτίο.",
+
+          "Χαμένος ρυθμός."
+
+        ]
+
+      },
+
+
+      {
+        name: "Zercher Squat",
+        icon: "🏋️",
+        muscle: "legs",
+        level: "advanced",
+
+        image:
+          "https://images.unsplash.com/photo-1566241142559-40e1dab266c6?auto=format&fit=crop&w=1000&q=80",
+
+        description:
+          "Squat variation με τη μπάρα μπροστά από τον κορμό.",
+
+        muscles:
+          "Τετρακέφαλοι, γλουτοί, κορμός, άνω πλάτη",
+
+        equipment:
+          "Μπάρα",
+
+        difficulty:
+          "Προχωρημένη",
+
+        sets:
+          "3–4",
+
+        reps:
+          "5–10",
+
+        technique: [
+
+          "Κράτησε τη μπάρα στις πτυχές των αγκώνων.",
+
+          "Σταθεροποίησε τον κορμό.",
+
+          "Κατέβα σε squat.",
+
+          "Πίεσε δυνατά προς τα πάνω."
+
+        ],
+
+        mistakes: [
+
+          "Κατάρρευση κορμού.",
+
+          "Αστάθεια.",
+
+          "Υπερβολικό φορτίο."
+
+        ]
+
+      }
+
+    ];
+
+
+
+    /* =====================================================
+       DOM
+    ===================================================== */
+
+    const grid =
+      document.getElementById("exerciseGrid");
+
+    const search =
+      document.getElementById("search");
+
+    const muscleFilter =
+      document.getElementById("muscleFilter");
+
+    const levelFilter =
+      document.getElementById("levelFilter");
+
+    const empty =
+      document.getElementById("empty");
+
+    const modal =
+      document.getElementById("modalOverlay");
+
+    const modalBody =
+      document.getElementById("modalBody");
+
+    const modalClose =
+      document.getElementById("modalClose");
+
+
+
+    /* =====================================================
+       RENDER
+    ===================================================== */
+
+    function renderExercises() {
+
+      const searchValue =
+        search.value
+          .toLowerCase()
+          .trim();
+
+      const muscle =
+        muscleFilter.value;
+
+      const level =
+        levelFilter.value;
+
+
+      const filtered =
+        exercises.filter(exercise => {
+
+          const matchesSearch =
+
+            exercise.name
+              .toLowerCase()
+              .includes(searchValue)
+
+            ||
+
+            exercise.description
+              .toLowerCase()
+              .includes(searchValue)
+
+            ||
+
+            exercise.muscles
+              .toLowerCase()
+              .includes(searchValue);
+
+
+          const matchesMuscle =
+
+            muscle === "all"
+
+            ||
+
+            exercise.muscle === muscle;
+
+
+          const matchesLevel =
+
+            level === "all"
+
+            ||
+
+            exercise.level === level;
+
+
+          return (
+            matchesSearch &&
+            matchesMuscle &&
+            matchesLevel
+          );
+
+        });
+
+
+      grid.innerHTML = "";
+
+
+      filtered.forEach(
+        (exercise, index) => {
+
+          const card =
+            document.createElement("article");
+
+
+          card.className =
+            "exercise-card";
+
+
+          card.innerHTML = `
+
+            <div
+              class="exercise-image-wrapper"
+            >
+
+              <img
+
+                class="exercise-image"
+
+                src="${exercise.image}"
+
+                alt="${exercise.name}"
+
+                loading="lazy"
+
+                onerror="
+                  this.src='https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1000&q=80'
+                "
+
+              >
+
+              <div class="exercise-number">
+
+                ${String(index + 1).padStart(2,"0")}
+
+              </div>
+
+            </div>
+
+
+            <div class="exercise-content">
+
+
+              <div class="exercise-icon">
+
+                ${exercise.icon}
+
+              </div>
+
+
+              <h3>
+
+                ${exercise.name}
+
+              </h3>
+
+
+              <p>
+
+                ${exercise.description}
+
+              </p>
+
+
+              <div class="tags">
+
+                <span class="tag">
+
+                  ${exercise.muscles.split(",")[0]}
+
+                </span>
+
+
+                <span class="tag">
+
+                  ${exercise.equipment}
+
+                </span>
+
+
+                <span class="tag">
+
+                  ${exercise.difficulty}
+
+                </span>
+
+              </div>
+
+
+              <button
+
+                class="details-button"
+
+                onclick="
+                  openExercise('${exercise.name}')
+                "
+
+              >
+
+                Δείτε τεχνική →
+
+              </button>
+
+
+            </div>
+
+          `;
+
+
+          grid.appendChild(card);
+
+        }
+      );
+
+
+      empty.style.display =
+        filtered.length === 0
+          ? "block"
+          : "none";
+
+    }
+
+
+
+    /* =====================================================
+       MODAL
+    ===================================================== */
+
+    function openExercise(name) {
+
+      const exercise =
+        exercises.find(
+          item =>
+            item.name === name
+        );
+
+
+      if (!exercise) return;
+
+
+      modalBody.innerHTML = `
+
+        <img
+
+          class="modal-image"
+
+          src="${exercise.image}"
+
+          alt="${exercise.name}"
+
+          onerror="
+            this.src='https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1000&q=80'
+          "
+
+        >
+
+
+        <div class="modal-content">
+
+
+          <h2>
+
+            ${exercise.name}
+
+          </h2>
+
+
+          <p class="modal-description">
+
+            ${exercise.description}
+
+          </p>
+
+
+          <div class="tags">
+
+            <span class="tag">
+              ${exercise.muscles}
+            </span>
+
+            <span class="tag">
+              ${exercise.equipment}
+            </span>
+
+          </div>
+
+
+          <div class="modal-info-grid">
+
+
+            <div class="modal-stat">
+
+              <small>
+                Difficulty
+              </small>
+
+              <strong>
+                ${exercise.difficulty}
+              </strong>
+
+            </div>
+
+
+            <div class="modal-stat">
+
+              <small>
+                Sets
+              </small>
+
+              <strong>
+                ${exercise.sets}
+              </strong>
+
+            </div>
+
+
+            <div class="modal-stat">
+
+              <small>
+                Reps
+              </small>
+
+              <strong>
+                ${exercise.reps}
+              </strong>
+
+            </div>
+
+
+            <div class="modal-stat">
+
+              <small>
+                Equipment
+              </small>
+
+              <strong>
+                ${exercise.equipment}
+              </strong>
+
+            </div>
+
+
+          </div>
+
+
+          <div class="modal-section">
+
+            <h4>
+              Τεχνική εκτέλεσης
+            </h4>
+
+            <ul>
+
+              ${exercise.technique
+                .map(
+                  step =>
+                    `<li>${step}</li>`
+                )
+                .join("")
+              }
+
+            </ul>
+
+          </div>
+
+
+          <div class="modal-section">
+
+            <h4>
+              Συχνά λάθη
+            </h4>
+
+            <div class="warning">
+
+              <ul>
+
+                ${exercise.mistakes
+                  .map(
+                    mistake =>
+                      `<li>${mistake}</li>`
+                  )
+                  .join("")
+                }
+
+              </ul>
+
+            </div>
+
+          </div>
+
+
+          <div class="modal-section">
+
+            <h4>
+              Προπονητικό tip
+            </h4>
+
+            <p>
+
+              Ξεκίνα με φορτίο που μπορείς να
+              ελέγξεις πλήρως. Προτεραιότητα έχει
+              η σταθερή και σωστή τεχνική πριν από
+              την αύξηση του βάρους.
+
+            </p>
+
+          </div>
+
+
+        </div>
+
+      `;
+
+
+      modal.classList.add("active");
+
+      document.body.style.overflow =
+        "hidden";
+
+    }
+
+
+
+    /* =====================================================
+       CLOSE MODAL
+    ===================================================== */
+
+    function closeModalFunction() {
+
+      modal.classList.remove("active");
+
+      document.body.style.overflow =
+        "";
+
+    }
+
+
+    modalClose.addEventListener(
+      "click",
+      closeModalFunction
+    );
+
+
+    modal.addEventListener(
+      "click",
+      event => {
+
+        if (
+          event.target === modal
+        ) {
+
+          closeModalFunction();
+
+        }
+
+      }
+    );
+
+
+    document.addEventListener(
+      "keydown",
+      event => {
+
+        if (
+          event.key === "Escape"
+        ) {
+
+          closeModalFunction();
+
+        }
+
+      }
+    );
+
+
+
+    /* =====================================================
+       FILTER EVENTS
+    ===================================================== */
+
+    search.addEventListener(
+      "input",
+      renderExercises
+    );
+
+
+    muscleFilter.addEventListener(
+      "change",
+      renderExercises
+    );
+
+
+    levelFilter.addEventListener(
+      "change",
+      renderExercises
+    );
+
+
+
+    /* =====================================================
+       INITIAL LOAD
+    ===================================================== */
+
+    renderExercises();
+
+  </script>
+
+
+</body>
+
+</html>
